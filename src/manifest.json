@@ -20,7 +20,15 @@
 
 	"icons": {
 		"48": "icons/cast_icon.png"
-	}
+	},
+
+	"web_accessible_resources": [
+		"icons/forward_icon.png",
+		"icons/replay_icon.png",
+		"icons/play_icon.png",
+		"icons/pause_icon.png",
+		"icons/cast_icon.png"
+	]
 
 }
 

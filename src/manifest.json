@@ -1,0 +1,26 @@
+{
+	"manifest_version": 2,
+	"name": "cast",
+	"version": "0.1",
+
+	"description": "Allows casting of videos to computers running the cast software.",
+
+	"browser_action": {
+		"default_icon": "icons/cast_icon.png",
+		"default_title": "cast",
+		"default_popup": "popup/cast.html"
+	},
+
+	"permissions": [
+		"storage",
+		"tabs",
+		"activeTab"
+	],
+
+
+	"icons": {
+		"48": "icons/cast_icon.png"
+	}
+
+}
+

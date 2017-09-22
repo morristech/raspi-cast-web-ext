@@ -58,7 +58,7 @@ document.addEventListener("click", (e) => {
 
 					request.open(
 						"GET",
-						"http://127.0.0.1:8080/?command=cast&video=" + tabURL,
+						"http://172.25.48.172:8080/?command=cast&video=" + tabURL,
 						true
 					);
 					request.send();
@@ -85,7 +85,7 @@ document.addEventListener("click", (e) => {
 
 						request.open(
 							"GET",
-							"http://127.0.0.1:8080/?command=" + e.target.id + "&id=" + escape(castID),
+							"http://172.25.48.172:8080/?command=" + e.target.id + "&id=" + escape(castID),
 							true
 						);
 						request.send();
@@ -103,7 +103,7 @@ document.addEventListener("click", (e) => {
 
 						request.open(
 							"GET",
-							"http://127.0.0.1:8080/?command=" + e.target.id + "&id=" + escape(castID),
+							"http://172.25.48.172:8080/?command=" + e.target.id + "&id=" + escape(castID),
 							true
 						);
 						request.send();

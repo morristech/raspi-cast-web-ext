@@ -1,116 +1,116 @@
-function setTogglePauseIcon(state) {
-	browser.storage.local.set({"state": state});
-	switch (state) {
-		case "play":
-			document.getElementById("togglePause").src = "/icons/play_icon.png";
-			break;
-		case "pause":
-			document.getElementById("togglePause").src = "/icons/pause_icon.png";
-			break;
-	}
-}
-
-function getTogglePauseIcon() {
-	return browser.storage.local.get("state");
-}
-
-function flipTogglePauseIcon() {
-	getTogglePauseIcon().then(
-		(storedData) => {
-			switch (storedData.state) {
-				case "play":
-					setTogglePauseIcon("pause");
-					break;
-				case "pause":
-					setTogglePauseIcon("play");
-					break;
-			}
-		}
-	);
-}
-
+const BASE = "http://192.168.0.24:8080";
 document.addEventListener("DOMContentLoaded", () => {
-	getTogglePauseIcon().then(
-		(storedData) => {
-			setTogglePauseIcon(storedData.state);
-		}
-	);
+  document.getElementById("cast").addEventListener("click", cast);
+  document.getElementById("togglePause").addEventListener("click", togglePause);
+  document.getElementById("skipForward").addEventListener("click", skipForward);
+  document.getElementById("skipBackwards").addEventListener("click", skipBackwards);
+  document.getElementById("volumeDown").addEventListener("click", volumeDown);
+  document.getElementById("volumeUp").addEventListener("click", volumeUp);
+  setInterval(setTogglePauseIcon, 250);
 });
 
-document.addEventListener("click", (e) => {
-	switch (e.target.id) {
-		case "cast":
-			setTogglePauseIcon("pause");
-			let currentTab = browser.tabs.query(
-				{
-					active: true,
-					windowId: browser.windows.WINDOW_ID_CURRENT
-				}
-			).then(
-				(tabInfo) => {
-					let tabURL = escape(tabInfo[0].url);
-					let request = new XMLHttpRequest();
+function setTogglePauseIcon() {
+  browser.storage.local.get("castID").then((storedData) => {
+    const castID = storedData.castID;
+    if (castID !== null) {
+      let request = new XMLHttpRequest();
 
-					request.onreadystatechange = () => {
-						if (request.readyState == XMLHttpRequest.DONE && request.status == 200)
-							browser.storage.local.set(JSON.parse(request.responseText));
-					};
+      request.onreadystatechange = () => {
+        if (request.readyState == XMLHttpRequest.DONE && request.status == 200) { 
+          const playing = JSON.parse(request.responseText).isPlaying;
+          document.getElementById("togglePause").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
+        }
+      };
 
-					request.open(
-						"GET",
-						"http://172.25.48.172:8080/?command=cast&video=" + tabURL,
-						true
-					);
-					request.send();
+      request.open("GET",
+        BASE + "?command=isPlaying&id=" + castID,
+        true
+      );
 
-				},
-				(error) => {
-					console.log(error);
-				});
-			break;
-		case "togglePause":
-			browser.storage.local.get("castID").then(
-				(storedData) => {
-					const castID = storedData.castID;
-					if (castID !== null) {
-						let request = new XMLHttpRequest();
+      request.send();
+    }
+  });
+}
 
-						request.onreadystatechange = () => {
-							if (request.readyState = XMLHttpRequest.DONE && request.status == 200) {
-								if (JSON.parse(request.responseText).success)
-									flipTogglePauseIcon();
-							}
-						};
-				
+function sendSimpleCommand(command) {
+  browser.storage.local.get("castID").then(
+    (storedData) => {
+      const castID = storedData.castID;
+      if (castID !== null) {
+        let request = new XMLHttpRequest();
 
-						request.open(
-							"GET",
-							"http://172.25.48.172:8080/?command=" + e.target.id + "&id=" + escape(castID),
-							true
-						);
-						request.send();
-					}
-				}
-			);
-			break;
-		case "skipForward":
-		case "skipBackwards":
-			browser.storage.local.get("castID").then(
-				(storedData) => {
-					const castID = storedData.castID;
-					if (castID !== null) {
-						let request = new XMLHttpRequest();
+        request.open("GET",
+          BASE + "?command=" + command + "&id=" + escape(castID),
+          true
+        );
+        request.send();
+      }
+    });
+}
 
-						request.open(
-							"GET",
-							"http://172.25.48.172:8080/?command=" + e.target.id + "&id=" + escape(castID),
-							true
-						);
-						request.send();
-					}
-				}
-			);
-			break;
+function cast() {
+  let currentTab = browser.tabs.query({
+    active: true,
+    windowId: browser.windows.WINDOW_ID_CURRENT
+  }).then(
+    (tabInfo) => {
+      let tabURL = escape(tabInfo[0].url);
+      let request = new XMLHttpRequest();
 
-	}
-});
+      request.onreadystatechange = () => {
+        if (request.readyState == XMLHttpRequest.DONE && request.status == 200) { 
+          setTogglePauseIcon();
+          browser.storage.local.set(JSON.parse(request.responseText));
+        }
+      };
+
+      request.open("GET",
+        BASE + "?command=cast&video=" + tabURL,
+        true
+      );
+      request.send();
+
+    },
+    (error) => {
+      console.log(error);
+    });
+}
+
+function togglePause() {
+  browser.storage.local.get("castID").then((storedData) => {
+      const castID = storedData.castID;
+      if (castID !== null) {
+        let request = new XMLHttpRequest();
+
+        request.onreadystatechange = () => {
+          if (request.readyState = XMLHttpRequest.DONE && request.status == 200) {
+            if (JSON.parse(request.responseText).success)
+              setTogglePauseIcon();
+          }
+        };
+
+
+        request.open("GET",
+          BASE + "?command=togglePause&id=" + escape(castID),
+          true
+        );
+        request.send();
+      }
+    });
+}
+
+function skipForward() {
+  sendSimpleCommand("skipForward");
+}
+
+function skipBackwards() {
+  sendSimpleCommand("skipBackwards");
+}
+
+function volumeDown() {
+  sendSimpleCommand("volumeDown");
+}
+
+function volumeUp() {
+  sendSimpleCommand("volumeUp");
+}

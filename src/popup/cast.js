@@ -1,17 +1,17 @@
 const BASE = "http://192.168.0.24:8080/";
-const WEBSOCKET_BASE = "ws://192.168.0.24";
+const WEBSOCKET_BASE = "ws://192.168.0.24:1337";
 document.addEventListener("DOMContentLoaded", () => {
+  setTogglePauseIcon();
   document.getElementById("cast").addEventListener("click", cast);
   document.getElementById("togglePause").addEventListener("click", togglePause);
   document.getElementById("skipForward").addEventListener("click", skipForward);
   document.getElementById("skipBackwards").addEventListener("click", skipBackwards);
   document.getElementById("volumeDown").addEventListener("click", volumeDown);
   document.getElementById("volumeUp").addEventListener("click", volumeUp);
-  setInterval(setTogglePauseIcon, 250);
 
   const connection = new WebSocket(WEBSOCKET_BASE);
-  connection.onmessagae = (e) => {
-    const playing = JSON.parse(e.data).playing;
+  connection.onmessage = (e) => {
+    const playing = JSON.parse(e.data).isPlaying;
     document.getElementById("togglePause").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
   };
 });
@@ -30,7 +30,8 @@ function sendSimpleCommand(command, callback) {
   let request = new XMLHttpRequest();
 
   request.onreadystatechange = () => {
-    callback(request);
+    if (callback)
+      callback(request);
   };
 
   request.open("GET",
@@ -51,7 +52,7 @@ function cast() {
       let request = new XMLHttpRequest();
 
       request.onreadystatechange = () => {
-        if (request.readyState == XMLHttpRequest.DONE && request.status == 200)
+        if (request.readyState == XMLHttpRequest.DONE && request.status == 200) 
           setTogglePauseIcon();
       };
 
@@ -68,12 +69,7 @@ function cast() {
 }
 
 function togglePause() {
-  sendSimpleCommand("togglePause",  (request) => {
-    if (request.readyState = XMLHttpRequest.DONE && request.status == 200) {
-      if (JSON.parse(request.responseText).success)
-        setTogglePauseIcon();
-    }
-  });
+  sendSimpleCommand("togglePause");
 }
 
 function skipForward() {

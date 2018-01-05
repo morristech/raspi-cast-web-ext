@@ -19,15 +19,18 @@
 
 
 	"icons": {
-		"48": "icons/cast_icon.png"
+		"48": "icons/ic_cast_3x.png"
 	},
 
 	"web_accessible_resources": [
-		"icons/forward_icon.png",
-		"icons/replay_icon.png",
-		"icons/play_icon.png",
-		"icons/pause_icon.png",
-		"icons/cast_icon.png"
+    "icons/ic_cast_3x.png",
+    "icons/ic_fast_forward_3x.png",
+    "icons/ic_fast_rewind_3x.png",
+    "icons/ic_pause_3x.png",
+    "icons/ic_play_arrow_3x.png",
+    "icons/ic_subtitles_3x.png",
+    "icons/ic_volume_down_3x.png",
+    "icons/ic_volume_up_3x.png"
 	]
 
 }

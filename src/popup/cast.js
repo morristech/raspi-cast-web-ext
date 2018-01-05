@@ -1,4 +1,5 @@
-const BASE = "http://192.168.0.24:8080";
+const BASE = "http://192.168.0.24:8080/";
+const WEBSOCKET_BASE = "ws://192.168.0.24";
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("cast").addEventListener("click", cast);
   document.getElementById("togglePause").addEventListener("click", togglePause);
@@ -7,45 +8,37 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("volumeDown").addEventListener("click", volumeDown);
   document.getElementById("volumeUp").addEventListener("click", volumeUp);
   setInterval(setTogglePauseIcon, 250);
+
+  const connection = new WebSocket(WEBSOCKET_BASE);
+  connection.onmessagae = (e) => {
+    const playing = JSON.parse(e.data).playing;
+    document.getElementById("togglePause").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
+  };
 });
 
+
 function setTogglePauseIcon() {
-  browser.storage.local.get("castID").then((storedData) => {
-    const castID = storedData.castID;
-    if (castID !== null) {
-      let request = new XMLHttpRequest();
-
-      request.onreadystatechange = () => {
-        if (request.readyState == XMLHttpRequest.DONE && request.status == 200) { 
-          const playing = JSON.parse(request.responseText).isPlaying;
-          document.getElementById("togglePause").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
-        }
-      };
-
-      request.open("GET",
-        BASE + "?command=isPlaying&id=" + castID,
-        true
-      );
-
-      request.send();
+  sendSimpleCommand("isPlaying", (request) => {
+    if (request.readyState == XMLHttpRequest.DONE && request.status == 200) { 
+      const playing = JSON.parse(request.responseText).isPlaying;
+      document.getElementById("togglePause").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
     }
   });
 }
 
-function sendSimpleCommand(command) {
-  browser.storage.local.get("castID").then(
-    (storedData) => {
-      const castID = storedData.castID;
-      if (castID !== null) {
-        let request = new XMLHttpRequest();
+function sendSimpleCommand(command, callback) {
+  let request = new XMLHttpRequest();
 
-        request.open("GET",
-          BASE + "?command=" + command + "&id=" + escape(castID),
-          true
-        );
-        request.send();
-      }
-    });
+  request.onreadystatechange = () => {
+    callback(request);
+  };
+
+  request.open("GET",
+    BASE +  command,
+    true
+  );
+
+  request.send();
 }
 
 function cast() {
@@ -58,14 +51,12 @@ function cast() {
       let request = new XMLHttpRequest();
 
       request.onreadystatechange = () => {
-        if (request.readyState == XMLHttpRequest.DONE && request.status == 200) { 
+        if (request.readyState == XMLHttpRequest.DONE && request.status == 200)
           setTogglePauseIcon();
-          browser.storage.local.set(JSON.parse(request.responseText));
-        }
       };
 
       request.open("GET",
-        BASE + "?command=cast&video=" + tabURL,
+        BASE + "cast?video=" + tabURL,
         true
       );
       request.send();
@@ -77,26 +68,12 @@ function cast() {
 }
 
 function togglePause() {
-  browser.storage.local.get("castID").then((storedData) => {
-      const castID = storedData.castID;
-      if (castID !== null) {
-        let request = new XMLHttpRequest();
-
-        request.onreadystatechange = () => {
-          if (request.readyState = XMLHttpRequest.DONE && request.status == 200) {
-            if (JSON.parse(request.responseText).success)
-              setTogglePauseIcon();
-          }
-        };
-
-
-        request.open("GET",
-          BASE + "?command=togglePause&id=" + escape(castID),
-          true
-        );
-        request.send();
-      }
-    });
+  sendSimpleCommand("togglePause",  (request) => {
+    if (request.readyState = XMLHttpRequest.DONE && request.status == 200) {
+      if (JSON.parse(request.responseText).success)
+        setTogglePauseIcon();
+    }
+  });
 }
 
 function skipForward() {

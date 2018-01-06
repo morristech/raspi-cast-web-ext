@@ -1,7 +1,19 @@
-html, body {
-	width: 100px;
-}
 
 img.button:hover {
 	opacity: 0.5;
 }
+
+img.button {
+  vertical-align: middle;
+}
+
+#ipAddress {
+  width: 100px;
+}
+
+#controls {
+  margin: auto;
+  width: 75%;
+}
+
+

@@ -122,8 +122,8 @@ function volumeUp() {
   sendSimpleCommand("volumeUp");
 }
 
-function subtitlesToggle() {
-  sendSimpleCommand("subtitlesToggle");
+function toggleSubtitles() {
+  sendSimpleCommand("toggleSubtitles");
 }
 
 function storeIPAddress() {
@@ -138,7 +138,14 @@ function clearIPAddress() {
 function restoreIPAddress() {
   browser.storage.local.get("ipAddress").then((storedData) => {
     const ipAddress = storedData.ipAddress;
-    if (ipAddress)
+    if (ipAddress) {
       document.getElementById("ipAddress").value = ipAddress;
+
+      const connection = new WebSocket("ws://" + ipAddress + ":" + UPDATE_PORT);
+      connection.onmessage = (e) => {
+        const playing = JSON.parse(e.data).isPlaying;
+        document.getElementById("togglePause").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
+      };
+    }
   });
 }

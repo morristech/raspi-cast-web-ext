@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="cast.css"/>
-	</head>
-
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="cast.css"/>
+  </head>
   <body>
     <div>
-    <input id="ipAddress" placeholder="Cast IP Address">
+      <input id="ipAddress" placeholder="Cast IP Address">
       <img class="button" id="cast" src="/icons/ic_cast_3x.png" height="24" width="24">
     </div>
-    <div id="controls">
-    <div>
-      <img class="button" id="volumeDown" src="/icons/ic_volume_down_3x.png" height="24" width="24">
-      <img class="button" id="volumeUp" src="/icons/ic_volume_up_3x.png" height="24" width="24">
-      <img class="button" id="toggleSubtitles" src="/icons/ic_subtitles_3x.png" height="24" width="24">
+    <div class="range-control">
+      <img class="range-button" id="togglePause" src="/icons/ic_play_arrow_3x.png" height="24" width="24">
+      <span class="range-bar-container">
+        <input type="range" class="range-bar" id="scrubberBar" min="0" value="0" max="1000">
+      </span>
     </div>
-    <div>
-			<img class="button" id="skipBackwards" src="/icons/ic_fast_rewind_3x.png" height="24" width="24">
-			<img class="button" id="togglePause" src="/icons/ic_play_arrow_3x.png" height="24" width="24">
-			<img class="button" id="skipForward" src="/icons/ic_fast_forward_3x.png" height="24" width="24">
-		</div>
+    <div class="range-control">
+      <img class="range-button" id="volumeDown" src="/icons/ic_volume_down_3x.png" height="24" width="24">
+      <span class="range-bar-container">
+        <input type="range" class="range-bar" id="scrubberBar" min="0" value="0" max="1000">
+      </span>
     </div>
-
-		<script src="cast.js" defer></script>
-	</body>
+    <script src="cast.js" defer></script>
+  </body>
 </html>

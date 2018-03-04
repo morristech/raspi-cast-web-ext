@@ -1,5 +1,7 @@
 const COMMAND_PORT = 8080;
-const UPDATE_PORT = 1337;
+const LEGACY_UPDATE_PORT = 1337;
+const UPDATE_PORT = 1338;
+
 const CAST_SERVER_RANGE_SUPPORT_VERSION = "0.11.0";
 const PAUSE_ICON_PATH = "/icons/ic_pause_3x.png";
 const PLAY_ICON_PATH = "/icons/ic_play_arrow_3x.png";
@@ -15,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
   restoreIPAddress();
   setTogglePlaybackIcon();
   setTogglePauseIconLegacy();
+  getDuration();
   document.getElementById("togglePlaybackStatus").addEventListener("click", togglePlaybackStatus);
+  document.getElementById("scrubberBar").addEventListener("change", setPosition);
   document.getElementById("ipAddress").addEventListener("input", storeIPAddress);
   document.getElementById("cast").addEventListener("click", cast);
   document.getElementById("togglePauseLegacy").addEventListener("click", togglePauseLegacy);
@@ -51,8 +55,8 @@ function cast() {
             if ("version" in res && res.version >= CAST_SERVER_RANGE_SUPPORT_VERSION) {
               document.getElementById("interface").style.display = "block";
               document.getElementById("interfaceLegacy").style.display = "none";
-              browser.storage.local.set({ "interface" : "new" });
-              setTogglePlaybackStatusIcon();
+              browser.storage.local.set({ "interface" : "new", "duration": res.duration });
+              setTogglePlaybackIcon();
             } else {
               document.getElementById("interface").style.display = "none";
               document.getElementById("interfaceLegacy").style.display = "block";
@@ -62,6 +66,7 @@ function cast() {
           } 
         }
 
+        /* TODO: Update to use POST in future version */
         request.open("GET",
           "http://" + ipAddress + ":" + COMMAND_PORT + "/cast?video=" + tabURL,
           true
@@ -98,6 +103,40 @@ function setTogglePlaybackIcon() {
 function togglePlaybackStatus() {
   const playing = document.getElementById("togglePlaybackStatus").src.indexOf(PAUSE_ICON_PATH) >= 0;
   sendSimpleCommand(playing ? "pause" : "play");
+}
+
+function getDuration() {
+  browser.storage.local.get("ipAddress").then((storedData) => {
+    const ipAddress = storedData.ipAddress;
+    if (ipAddress)
+      sendSimpleCommand("getDuration", (request) => {
+        if (request.readyState == XMLHttpRequest.DONE && request.status == 200) { 
+          const duration = JSON.parse(request.responseText).duration;
+          browser.storage.local.set({ duration: duration });
+        }
+      });
+  });
+}
+
+function setPosition() {
+  browser.storage.local.get(["ipAddress", "duration"]).then((storedData) => {
+    const duration = storedData.duration;
+    const ipAddress = storedData.ipAddress;
+    if (ipAddress && duration) {
+      let request = new XMLHttpRequest();
+
+      /* TODO: add checking for errors such as EXPIRED_CAST, etc
+       * Also prevent getPosition from changing input bar until response received
+       */
+      const slider = document.getElementById("scrubberBar");
+      const position = Math.floor(slider.value/(slider.max - slider.min) * duration);
+      request.open("POST",
+        "http://" + ipAddress + ":" + COMMAND_PORT + "/setPosition?position=" + position,
+        true
+      );
+      request.send();
+    }
+  });
 }
 
 /* Legacy Support Functions */
@@ -188,7 +227,8 @@ function restoreIPAddress() {
       const connection = new WebSocket("ws://" + ipAddress + ":" + UPDATE_PORT);
       connection.onmessage = (e) => {
         const playing = JSON.parse(e.data).isPlaying;
-        document.getElementById("togglePauseLegacy").src = "/icons/" + ((playing) ? "ic_pause_3x.png": "ic_play_arrow_3x.png");
+        document.getElementById("togglePauseLegacy").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+        document.getElementById("togglePlaybackStatus").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
       };
     }
   });

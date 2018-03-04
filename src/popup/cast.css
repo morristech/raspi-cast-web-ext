@@ -16,4 +16,19 @@ img.button {
   width: 75%;
 }
 
+#interfaceLegacy {
+  display: none;
+}
+
+img.range-button:hover {
+	opacity: 0.5;
+}
+
+img.buttonLegacy:hover {
+	opacity: 0.5;
+}
+
+img.buttonLegacy {
+  vertical-align: middle;
+}
 

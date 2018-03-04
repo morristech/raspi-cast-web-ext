@@ -5,22 +5,38 @@
     <link rel="stylesheet" href="cast.css"/>
   </head>
   <body>
-    <div>
-      <input id="ipAddress" placeholder="Cast IP Address">
-      <img class="button" id="cast" src="/icons/ic_cast_3x.png" height="24" width="24">
-    </div>
-    <div class="range-control">
-      <img class="range-button" id="togglePause" src="/icons/ic_play_arrow_3x.png" height="24" width="24">
-      <span class="range-bar-container">
-        <input type="range" class="range-bar" id="scrubberBar" min="0" value="0" max="1000">
-      </span>
-    </div>
-    <div class="range-control">
-      <img class="range-button" id="volumeDown" src="/icons/ic_volume_down_3x.png" height="24" width="24">
-      <span class="range-bar-container">
-        <input type="range" class="range-bar" id="scrubberBar" min="0" value="0" max="1000">
-      </span>
-    </div>
+      <div>
+        <input id="ipAddress" placeholder="Cast IP Address">
+        <img class="button" id="cast" src="/icons/ic_cast_3x.png" height="24" width="24">
+      </div>
+      <div id="interface">
+        <div class="range-control">
+          <img class="range-button" id="togglePlaybackStatus" src="/icons/ic_play_arrow_3x.png" height="24" width="24">
+          <span class="range-bar-container">
+            <input type="range" class="range-bar" id="scrubberBar" min="0" value="0" max="1000">
+          </span>
+        </div>
+        <div class="range-control">
+          <img id="volume" src="/icons/ic_volume_down_3x.png" height="24" width="24">
+          <span class="range-bar-container">
+            <input type="range" class="range-bar" id="volumeBar" min="0" value="0" max="1000">
+          </span>
+        </div>
+      </div>
+      <div id="interfaceLegacy">
+        <div id="controls">     
+          <div>       
+            <img class="buttonLegacy" id="volumeDownLegacy"  src="/icons/ic_volume_down_3x.png" height="24" width="24">       
+            <img class="buttonLegacy" id="volumeUpLegacy"  src="/icons/ic_volume_up_3x.png" height="24" width="24">       
+            <img class="buttonLegacy" id="toggleSubtitlesLegacy"  src="/icons/ic_subtitles_3x.png" height="24" width="24">     
+          </div>     
+          <div> 			
+            <img class="buttonLegacy" id="skipBackwardsLegacy"  src="/icons/ic_fast_rewind_3x.png" height="24" width="24"> 			
+            <img class="buttonLegacy" id="togglePauseLegacy"  src="/icons/ic_play_arrow_3x.png" height="24" width="24"> 			
+            <img class="buttonLegacy" id="skipForwardLegacy"  src="/icons/ic_fast_forward_3x.png" height="24" width="24"> 		
+          </div>     
+        </div>
+      </div>
     <script src="cast.js" defer></script>
   </body>
 </html>

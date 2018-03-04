@@ -53,14 +53,12 @@ function cast() {
           } else if (request.readyState == XMLHttpRequest.DONE && request.status == 200) {
             const res = JSON.parse(request.responseText);
             if ("version" in res && res.version >= CAST_SERVER_RANGE_SUPPORT_VERSION) {
-              document.getElementById("interface").style.display = "block";
-              document.getElementById("interfaceLegacy").style.display = "none";
               browser.storage.local.set({ "interface" : "new", "duration": res.duration });
+              showNewInterface();
               setTogglePlaybackIcon();
             } else {
-              document.getElementById("interface").style.display = "none";
-              document.getElementById("interfaceLegacy").style.display = "block";
               browser.storage.local.set({ "interface" : "legacy" });
+              showLegacyInterface();
               setTogglePauseIconLegacy();
             }
           } 
@@ -78,12 +76,38 @@ function cast() {
         alert(error);
       });
 
+    /* Attempt to connect to new update port */
     const connection = new WebSocket("ws://" + ipAddress + ":" + UPDATE_PORT);
-    connection.onmessage = (e) => {
-      const playing = JSON.parse(e.data).isPlaying;
-      document.getElementById("togglePauseLegacy").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
-      document.getElementById("togglePlaybackStatus").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+    connection.onopen = () => {
+      browser.storage.local.set({ "interface" : "new" });
+      showNewInterface();
     };
+
+    connection.onmessage = (message) => {
+      const data = JSON.parse(message.data);
+      switch (data.messageType) {
+        case "playbackStatus":
+          const playing = data.playbackStatus === "Playing";
+          document.getElementById("togglePlaybackStatus").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+          break;
+      }
+    };
+
+    /* If unsuccessful, connect to old update port */
+    connection.onclose = (e) => {
+      if (e.code === 1006) {
+        const connectionLegacy = new WebSocket("ws://" + ipAddress + ":" + LEGACY_UPDATE_PORT);
+        connectionLegacy.onopen = () => {
+          browser.storage.local.set({ "interface" : "legacy" });
+          showLegacyInterface();
+        };
+
+        connectionLegacy.onmessage = (e) => {
+          const playing = JSON.parse(e.data).isPlaying;
+          document.getElementById("togglePauseLegacy").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+        };
+      }
+    }
   });
 }
 
@@ -137,6 +161,16 @@ function setPosition() {
       request.send();
     }
   });
+}
+
+function showNewInterface() {
+  document.getElementById("interface").style.display = "block";
+  document.getElementById("interfaceLegacy").style.display = "none";
+}
+
+function showLegacyInterface() {
+  document.getElementById("interface").style.display = "none";
+  document.getElementById("interfaceLegacy").style.display = "block";
 }
 
 /* Legacy Support Functions */
@@ -224,12 +258,37 @@ function restoreIPAddress() {
     if (ipAddress) {
       document.getElementById("ipAddress").value = ipAddress;
 
+      /* Attempt to connect to new update port */
       const connection = new WebSocket("ws://" + ipAddress + ":" + UPDATE_PORT);
-      connection.onmessage = (e) => {
-        const playing = JSON.parse(e.data).isPlaying;
-        document.getElementById("togglePauseLegacy").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
-        document.getElementById("togglePlaybackStatus").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+      connection.onmessage = (message) => {
+        const data = JSON.parse(message.data);
+        switch (data.messageType) {
+          case "playbackStatus":
+            const playing = data.playbackStatus === "Playing";
+            document.getElementById("togglePlaybackStatus").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+            break;
+        }
       };
+      connection.onopen = () => {
+        browser.storage.local.set({ "interface" : "new" });
+        showNewInterface();
+      };
+
+      /* If unsuccessful, connect to old update port */
+      connection.onclose = (e) => {
+        if (e.code === 1006) {
+          const connectionLegacy = new WebSocket("ws://" + ipAddress + ":" + LEGACY_UPDATE_PORT);
+          connectionLegacy.onopen = () => {
+            browser.storage.local.set({ "interface" : "legacy" });
+            showLegacyInterface();
+          };
+
+          connectionLegacy.onmessage = (e) => {
+            const playing = JSON.parse(e.data).isPlaying;
+            document.getElementById("togglePauseLegacy").src = (playing) ? PAUSE_ICON_PATH : PLAY_ICON_PATH;
+          };
+        }
+      }
     }
   });
 }

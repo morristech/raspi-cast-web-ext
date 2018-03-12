@@ -16,6 +16,7 @@ const PLAY_ICON_PATH = "/icons/ic_play_arrow_3x.png";
 
 /* whether setPosition was called: any messages specifying the position
  * will be ignored until setPosition receives a response */
+var awaitingSetPositionResponse = false;
 var settingPosition = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -32,6 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
   setScrubberBar();
   document.getElementById("togglePlaybackStatus").addEventListener("click", togglePlaybackStatus);
   document.getElementById("scrubberBar").addEventListener("change", setPosition);
+  document.getElementById("scrubberBar").addEventListener("mouseup", () => {
+    settingPosition = false;
+  });
+  document.getElementById("scrubberBar").addEventListener("mousedown", () => {
+    settingPosition = true;
+  });
+
   document.getElementById("ipAddress").addEventListener("input", storeIPAddress);
   document.getElementById("cast").addEventListener("click", cast);
   document.getElementById("togglePauseLegacy").addEventListener("click", togglePauseLegacy);
@@ -186,10 +194,10 @@ function setPosition() {
        * Also prevent getPosition from changing input bar until response received
        */
       let request = new XMLHttpRequest();
-      settingPosition = true;
+      awaitingSetPositionResponse = true;
       request.onreadystatechange = () => {
         if (request.readyState == XMLHttpRequest.DONE)
-          settingPosition = false;
+          awaitingSetPositionResponse = false;
       };
  
       request.open("POST",
@@ -330,15 +338,16 @@ function handleMessage(message) {
 
       break;
     case "position":
-      if (!settingPosition) {
+      if (!awaitingSetPositionResponse && !settingPosition) {
         const position = data.position;
         browser.storage.local.get("duration").then((storedData) => {
           const duration = storedData.duration;
-          if (position < duration) {
+          const scrubberBar = document.getElementById("scrubberBar");
+          const min = parseInt(scrubberBar.min, 10);
+          const max = parseInt(scrubberBar.max, 10);
+
+          if (position < duration && !settingPosition) {
             browser.storage.local.set({ position: position });
-            const scrubberBar = document.getElementById("scrubberBar");
-            const min = parseInt(scrubberBar.min, 10);
-            const max = parseInt(scrubberBar.max, 10);
             scrubberBar.value = Math.floor(position / duration * (max - min) + min);
           }
         });

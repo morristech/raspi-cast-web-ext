@@ -12,7 +12,7 @@ const COMMAND_PORT = 8080;
 const LEGACY_UPDATE_PORT = 1337;
 const UPDATE_PORT = 1338;
 
-const CAST_SERVER_RANGE_SUPPORT_VERSION = "0.11.0";
+const CAST_SERVER_RANGE_SUPPORT_VERSION = "STABLE_0.1.2";
 const PAUSE_ICON_PATH = "/icons/ic_pause_3x.png";
 const PLAY_ICON_PATH = "/icons/ic_play_arrow_3x.png";
 
@@ -111,8 +111,6 @@ function cast() {
                 setVolumeBar();
                 setVolumeIcon();
               } else {
-                /* TODO: add link for update */
-                alertUser("Please update your cast server.");
                 browser.storage.local.set({ "interface" : "legacy" });
                 showLegacyInterface();
                 setTogglePauseIconLegacy();

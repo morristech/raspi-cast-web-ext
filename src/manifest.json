@@ -1,13 +1,13 @@
 {
 	"manifest_version": 2,
-	"name": "cast",
-	"version": "0.1",
+	"name": "librecast",
+	"version": "0.2",
 
 	"description": "Allows casting of videos to computers running the cast software.",
 
 	"browser_action": {
 		"default_icon": "icons/ic_cast_3x.png",
-		"default_title": "cast",
+		"default_title": "librecast",
 		"default_popup": "popup/cast.html"
 	},
 

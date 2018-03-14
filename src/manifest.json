@@ -17,6 +17,9 @@
 		"activeTab"
 	],
 
+  "options_ui": {
+    "page": "options.html"
+  },
 
 	"icons": {
 		"48": "icons/ic_cast_3x.png"
@@ -29,8 +32,15 @@
     "icons/ic_pause_3x.png",
     "icons/ic_play_arrow_3x.png",
     "icons/ic_subtitles_3x.png",
+    "icons/ic_volume_down_48pt_3x.png",
     "icons/ic_volume_down_3x.png",
-    "icons/ic_volume_up_3x.png"
+    "icons/ic_volume_up_3x.png",
+    "icons/ic_replay_30_48pt_3x.png",
+    "icons/ic_replay_5_48pt_3x.png",
+    "icons/ic_stop_48pt_3x.png",
+    "icons/ic_forward_5_48pt_3x.png",
+    "icons/ic_forward_30_48pt_3x.png",
+
 	]
 }
 

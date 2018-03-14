@@ -3,7 +3,7 @@
 	"name": "librecast",
 	"version": "0.2",
 
-	"description": "Allows casting of videos to computers running the cast software.",
+	"description": "Allows casting of videos to a Raspberry Pi running the cast software.",
 
 	"browser_action": {
 		"default_icon": "icons/ic_cast_3x.png",

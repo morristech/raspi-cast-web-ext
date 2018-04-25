@@ -9,11 +9,12 @@
   },
   "homepage": "https://gitlab.com/charjac/cast-addon-firefox#README",
   "dependencies": {
+    "autobind-decorator": "^2.1.0",
     "glamorous": "^4.12.4",
     "material-icons": "^0.2.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "rx-react-form": "^1.5.12",
+    "rx-react-form": "^1.6.0",
     "rxjs": "^5.5.10",
     "vanilla-text-mask": "^5.0.2"
   },

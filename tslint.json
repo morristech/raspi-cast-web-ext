@@ -1,0 +1,47 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier",
+    "rxjs-tslint-rules",
+    "tslint-react"
+  ],
+  "rulesDirectory": ["tslint-plugin-prettier"],
+  "rules": {
+    "rxjs-no-wholesale": true,
+    "rxjs-no-unused-add": { "severity": "error" },
+    "interface-name": false,
+    "no-submodule-imports": false,
+    "prettier": true,
+    "member-access": true,
+    "no-reference": true,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "property-declaration",
+      "member-variable-declaration"
+    ],
+    "curly": true,
+    "no-duplicate-variable": true,
+    "no-empty": true,
+    "no-eval": true,
+    "no-null-keyword": true,
+    "no-shadowed-variable": true,
+    "no-var-keyword": true,
+    "switch-default": true,
+    "triple-equals": true,
+    "use-isnan": true,
+    "prefer-const": true,
+    "class-name": true,
+    "no-angle-bracket-type-assertion": true,
+    "no-consecutive-blank-lines": true
+  },
+  "linterOptions": {
+    "exclude": [
+      "config/**/*.js",
+      "configsOLD/**/*.js",
+      "srcBAK/**/*.js",
+      "node_modules/**/*.ts"
+    ]
+  }
+}

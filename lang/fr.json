@@ -1,0 +1,5 @@
+{
+  "options.maxvolume": "volume maximum ",
+  "options.minvolume": "volume minimum ",
+  "options.ipcast": "adresse ip de votre picast : "
+}

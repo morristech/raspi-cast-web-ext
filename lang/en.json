@@ -1,0 +1,5 @@
+{
+  "options.maxvolume": "maximum volume ",
+  "options.minvolume": "minimum volume ",
+  "options.ipcast": "ip adress of the picast server : "
+}

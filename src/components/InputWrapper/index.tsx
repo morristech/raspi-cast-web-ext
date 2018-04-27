@@ -1,6 +1,6 @@
 import glamorous from 'glamorous';
 
-import { WithTheme } from '../../theme';
+import { WithTheme } from '../../style/theme';
 
 export const InputWrapper = glamorous.div<WithTheme>(({ theme }) => ({
   display: 'flex',

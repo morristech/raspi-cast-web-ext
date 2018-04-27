@@ -1,7 +1,7 @@
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../theme';
+import { WithTheme } from '../../style/theme';
 import { InputWrapper } from '../InputWrapper';
 
 interface TextInputProps {

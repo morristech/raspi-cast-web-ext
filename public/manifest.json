@@ -8,7 +8,7 @@
 	"browser_action": {
 		"default_icon": "icons/ic_cast_3x.png",
 		"default_title": "librecast",
-		"default_popup": "popup/cast.html"
+		"default_popup": "popup.html"
 	},
 
 	"permissions": [

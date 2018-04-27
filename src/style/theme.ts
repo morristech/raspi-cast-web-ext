@@ -1,4 +1,10 @@
+import { beat } from './animations';
+
 export interface Theme {
+  beat: any;
+  castButtonWidth: string;
+  popupWidth: number;
+  popupHeight: number;
   primaryColor: string;
   secondaryColor: string;
   lightGrey: string;
@@ -10,8 +16,12 @@ export interface WithTheme {
 }
 
 export const theme: Theme = {
+  beat,
+  castButtonWidth: '8.5em',
   lightGrey: '#d7dcdf',
   primaryColor: '#1abc9c',
   secondaryColor: '#2c3e50',
   white: '#fff',
+  popupWidth: 400,
+  popupHeight: 400,
 };

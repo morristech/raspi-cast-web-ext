@@ -57,7 +57,8 @@ module.exports = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: {
-    options: [require.resolve('./polyfills'), paths.appOptions]
+    options: [require.resolve('./polyfills'), paths.appOptions],
+    popup: [require.resolve('./polyfills'), paths.appPopup]
   },
   output: {
     // The build folder.
@@ -259,6 +260,24 @@ module.exports = {
       template: paths.optionsTemplate,
       alwaysWriteToDisk: true,
       filename: 'options.html',
+      inject: false,
+      // minify: {
+      //   removeComments: true,
+      //   collapseWhitespace: true,
+      //   removeRedundantAttributes: true,
+      //   useShortDoctype: true,
+      //   removeEmptyAttributes: true,
+      //   removeStyleLinkTypeAttributes: true,
+      //   keepClosingSlash: true,
+      //   minifyJS: true,
+      //   minifyCSS: true,
+      //   minifyURLs: true,
+      // },
+    }),
+    new HtmlWebpackPlugin({
+      template: paths.popupTemplate,
+      alwaysWriteToDisk: true,
+      filename: 'popup.html',
       inject: false,
       // minify: {
       //   removeComments: true,

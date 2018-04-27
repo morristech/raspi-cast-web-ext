@@ -8,7 +8,7 @@ import OptionsForm from './containers/OptionsForm';
 import { getTranslations } from './helpers/i18n';
 import { theme } from './style/theme';
 
-css.insert('input::-moz-focus-inner,input::-moz-focus-outer { border: 0; }');
+css.global('input::-moz-focus-inner,input::-moz-focus-outer { border: 0; }');
 
 /* tslint:disable */
 const onSubmit = () => {};

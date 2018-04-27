@@ -10,8 +10,8 @@ interface CastButtonProps {
 export const CastButton: React.SFC<CastButtonProps> = () => (
   <ButtonWrapper>
     <Button>
-      <span className="foo" />
-      <span className="bar" />
+      <span className="before" />
+      <span className="after" />
       <i
         className="zmdi zmdi-cast zmdi-hc-5x"
         style={{ alignSelf: 'center', margin: 'auto auto' }}
@@ -43,11 +43,11 @@ const Button = glamorous.button<WithTheme>(({ theme }) => ({
   ':hover': {
     backgroundColor: theme.primaryColor,
     color: '#fff',
-    '& .foo': {
+    '& .before': {
       animation: `${theme.beat} 1.5s ease-out infinite`,
     },
 
-    '& .bar': {
+    '& .after': {
       animation: `${theme.beat} 1.5s ease-out 0.4s infinite`,
     },
   },

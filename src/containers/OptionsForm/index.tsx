@@ -1,17 +1,21 @@
 import autobind from 'autobind-decorator';
 import React from 'react';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { rxForm } from 'rx-react-form';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map, skip, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
 
+import { Slider } from '../../components/Slider';
+import { TextInput } from '../../components/TextInput';
+
 interface OptionsProps {
   valueChange$?: Observable<any>;
   onSubmit: () => void;
 }
 
-class OptionsForm extends React.Component<OptionsProps> {
+class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
   private subscription: Subscription;
 
   public componentDidMount(): void {
@@ -29,11 +33,28 @@ class OptionsForm extends React.Component<OptionsProps> {
   }
 
   public render(): JSX.Element {
+    const { intl } = this.props;
+
     return (
       <form>
-        <input type="range" name="maxVolume" min="0" max="5000" step="25" />
-        <input type="range" name="minVolume" min="0" max="5000" step="25" />
-        <input type="text" name="castIp" />
+        <TextInput
+          label={intl.formatMessage({ id: 'options.castIp' })}
+          name="castIp"
+        />
+        <Slider
+          label={intl.formatMessage({ id: 'options.minVolume' })}
+          name="minVolume"
+          min={0}
+          max={5000}
+          step={25}
+        />
+        <Slider
+          label={intl.formatMessage({ id: 'options.maxVolume' })}
+          name="maxVolume"
+          min={0}
+          max={5000}
+          step={25}
+        />
       </form>
     );
   }
@@ -52,6 +73,8 @@ class OptionsForm extends React.Component<OptionsProps> {
   }
 }
 
+const OptionFormWithIntl = injectIntl<OptionsProps>(OptionsForm as any);
+
 export default rxForm<OptionsProps>({
   debounce: 2000,
   fields: {
@@ -61,4 +84,4 @@ export default rxForm<OptionsProps>({
   },
   value$: fromPromise(browser.storage.local.get() as Promise<any>),
   valueChangeObs: true,
-})(OptionsForm as any);
+})(OptionFormWithIntl);

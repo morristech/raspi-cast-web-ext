@@ -7,6 +7,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map, skip, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
 
+import { Form } from '../../components/Form';
 import { Slider } from '../../components/Slider';
 import { TextInput } from '../../components/TextInput';
 
@@ -36,7 +37,7 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
     const { intl } = this.props;
 
     return (
-      <form>
+      <Form>
         <TextInput
           label={intl.formatMessage({ id: 'options.castIp' })}
           name="castIp"
@@ -55,7 +56,7 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
           max={5000}
           step={25}
         />
-      </form>
+      </Form>
     );
   }
 

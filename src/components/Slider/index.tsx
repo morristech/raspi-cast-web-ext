@@ -34,8 +34,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       <InputWrapper>
         {!!label && <label>{label}</label>}
         <RangeInput
-          type="range"
           {...inputProps}
+          type="range"
           value={this.state.value}
           onInput={this.handleInput}
         />

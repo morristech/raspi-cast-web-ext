@@ -1,17 +1,19 @@
 import autobind from 'autobind-decorator';
 import React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { rxForm } from 'rx-react-form';
+import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl';
+import { FieldProp, rxForm } from 'rx-react-form';
 import { Observable, Subscription } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
 import { Form } from '../../components/Form';
 import { Slider } from '../../components/Slider';
 import { TextInput } from '../../components/TextInput';
+import { validateIpAdress } from '../../helpers/validators';
 import { store } from '../../store';
 
 interface OptionsProps {
   valueChange$?: Observable<any>;
+  castIp?: FieldProp;
   onSubmit: () => void;
 }
 
@@ -28,13 +30,14 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
   }
 
   public render(): JSX.Element {
-    const { intl } = this.props;
+    const { intl, castIp } = this.props;
 
     return (
       <Form>
         <TextInput
           label={intl.formatMessage({ id: 'options.castIp' })}
           name="castIp"
+          meta={castIp}
         />
         <Slider
           label={intl.formatMessage({ id: 'options.minVolume' })}
@@ -70,10 +73,20 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
 
 const OptionFormWithIntl = injectIntl<OptionsProps>(OptionsForm as any);
 
-export default rxForm<OptionsProps>({
+export default rxForm<OptionsProps & { intl?: InjectedIntl }>({
   debounce: 2000,
   fields: {
-    castIp: {},
+    castIp: {
+      validation: (value: string, formValue, { intl }) => {
+        if (value !== '') {
+          return validateIpAdress(value)
+            ? undefined
+            : intl!.formatMessage({ id: 'options.casIp.invalid' });
+        } else {
+          return undefined;
+        }
+      },
+    },
     maxVolume: {},
     minVolume: {},
   },

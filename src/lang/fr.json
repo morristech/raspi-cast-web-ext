@@ -1,5 +1,6 @@
 {
   "options.maxVolume": "volume maximum",
   "options.minVolume": "volume minimum",
-  "options.castIp": "adresse ip de votre picast"
+  "options.castIp": "adresse ip de votre picast",
+  "options.casIp.invalid": "adresse id invalide"
 }

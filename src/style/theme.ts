@@ -7,6 +7,7 @@ export interface Theme {
   popupHeight: number;
   primaryColor: string;
   secondaryColor: string;
+  errorColor: string;
   lightGrey: string;
   white: string;
 }
@@ -21,6 +22,7 @@ export const theme: Theme = {
   lightGrey: '#d7dcdf',
   primaryColor: '#1abc9c',
   secondaryColor: '#2c3e50',
+  errorColor: '#ff0033',
   white: '#fff',
   popupWidth: 400,
   popupHeight: 400,

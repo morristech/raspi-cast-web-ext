@@ -20,11 +20,13 @@ interface SliderProps {
 
 interface SliderState {
   value: number;
+  init: boolean;
 }
 
 export class Slider extends React.PureComponent<SliderProps, SliderState> {
   public state: SliderState = {
     value: this.props.value || this.props.min,
+    init: false,
   };
 
   public render(): JSX.Element {
@@ -38,10 +40,20 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           type="range"
           value={this.state.value}
           onInput={this.handleInput}
+          innerRef={this.setRef}
         />
         <Value>{this.state.value}</Value>
       </InputWrapper>
     );
+  }
+
+  @autobind
+  private setRef(element: any): void {
+    if (!this.state.init) {
+      setTimeout(() => {
+        this.setState({ value: element.value, init: true });
+      }, 500);
+    }
   }
 
   @autobind

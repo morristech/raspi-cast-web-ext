@@ -14,6 +14,8 @@ import { store } from '../../store';
 interface OptionsProps {
   valueChange$?: Observable<any>;
   castIp?: FieldProp;
+  minVolume?: FieldProp;
+  maxVolume?: FieldProp;
   onSubmit: () => void;
 }
 
@@ -30,8 +32,8 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
   }
 
   public render(): JSX.Element {
-    const { intl, castIp } = this.props;
-
+    const { intl, castIp, maxVolume } = this.props;
+    console.log(maxVolume);
     return (
       <Form>
         <TextInput

@@ -2,20 +2,20 @@ import glamorous from 'glamorous';
 import React from 'react';
 
 import { WithTheme } from '../../style/theme';
+import { Icon } from '../Icon';
 
 interface CastButtonProps {
   isCasting?: boolean;
 }
-
+/* I use before and after class here because i was unbale to figure out how
+ * to use :focus:before selector with glamorous.
+ */
 export const CastButton: React.SFC<CastButtonProps> = () => (
   <ButtonWrapper>
     <Button>
       <span className="before" />
       <span className="after" />
-      <i
-        className="zmdi zmdi-cast zmdi-hc-5x"
-        style={{ alignSelf: 'center', margin: 'auto auto' }}
-      />
+      <Icon name="cast" size={5} />
     </Button>
   </ButtonWrapper>
 );

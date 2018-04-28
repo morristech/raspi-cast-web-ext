@@ -2,14 +2,13 @@ import autobind from 'autobind-decorator';
 import React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { rxForm } from 'rx-react-form';
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map, skip, switchMap } from 'rxjs/operators';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+import { map, skip } from 'rxjs/operators';
 
 import { Form } from '../../components/Form';
 import { Slider } from '../../components/Slider';
 import { TextInput } from '../../components/TextInput';
+import { store } from '../../store';
 
 interface OptionsProps {
   valueChange$?: Observable<any>;
@@ -18,15 +17,10 @@ interface OptionsProps {
 
 class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
   private subscription: Subscription;
-
   public componentDidMount(): void {
     this.subscription = this.props
-      .valueChange$!.pipe(
-        skip(1),
-        map(this.reduceFormValue),
-        switchMap(formValue => browser.storage.local.set(formValue)),
-      )
-      .subscribe();
+      .valueChange$!.pipe(skip(1), map(this.reduceFormValue))
+      .subscribe(settings => store.dispatch({ setSettings: settings }));
   }
 
   public componentWillUnmount(): void {
@@ -83,6 +77,6 @@ export default rxForm<OptionsProps>({
     maxVolume: {},
     minVolume: {},
   },
-  value$: fromPromise(browser.storage.local.get() as Promise<any>),
+  value$: store.pluck('settings').pipe(skip(1)) as Observable<any>,
   valueChangeObs: true,
 })(OptionFormWithIntl);

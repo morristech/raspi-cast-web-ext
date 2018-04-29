@@ -1,11 +1,24 @@
 import glamorous from 'glamorous';
 import { QueueingSubject } from 'queueing-subject';
 import React from 'react';
+import { adopt } from 'react-adopt';
 
 import { CastButton } from '../../components/CastButton';
 import { ControlBar } from '../../components/ControlBar';
+import { Tab } from '../../containers/Tab';
 import { WebSocket } from '../../containers/WebSocket';
 import { WithTheme } from '../../style/theme';
+
+const Composed = adopt({
+  websocket: (
+    <WebSocket
+      connectionStatus={0}
+      messages={''}
+      ws$={new QueueingSubject<string>()}
+    />
+  ),
+  tab: <Tab url="" />,
+});
 
 const props = {
   actions: {
@@ -29,18 +42,14 @@ const props = {
 };
 
 export const PopupLayout: React.SFC<{}> = ({ children }) => (
-  <WebSocket
-    connectionStatus={0}
-    messages={''}
-    ws$={new QueueingSubject<string>()}
-  >
+  <Composed>
     {() => (
       <Layout>
         <CastButton />
         <ControlBar {...props} />
       </Layout>
     )}
-  </WebSocket>
+  </Composed>
 );
 
 const Layout = glamorous.div<WithTheme>(({ theme }) => ({

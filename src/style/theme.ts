@@ -10,6 +10,7 @@ export interface Theme {
   errorColor: string;
   lightGrey: string;
   white: string;
+  progressHeight: string;
 }
 
 export interface WithTheme {
@@ -24,6 +25,7 @@ export const theme: Theme = {
   secondaryColor: '#2c3e50',
   errorColor: '#ff0033',
   white: '#fff',
-  popupWidth: 400,
+  popupWidth: 600,
   popupHeight: 400,
+  progressHeight: '4px',
 };

@@ -6,22 +6,19 @@ import { IntlProvider } from 'react-intl';
 
 import OptionsForm from './containers/OptionsForm';
 import { getTranslations } from './helpers/i18n';
+import { noop } from './helpers/noop';
 import { theme } from './style/theme';
 
 css.global('input::-moz-focus-inner,input::-moz-focus-outer { border: 0; }');
-
-/* tslint:disable */
-const onSubmit = () => {};
-/* tslint:enable */
 
 const Options = () => (
   <IntlProvider
     locale={navigator.language}
     messages={getTranslations()}
-    defaultLocale="fr"
+    defaultLocale="en"
   >
     <ThemeProvider theme={theme}>
-      <OptionsForm onSubmit={onSubmit} />
+      <OptionsForm onSubmit={noop} />
     </ThemeProvider>
   </IntlProvider>
 );

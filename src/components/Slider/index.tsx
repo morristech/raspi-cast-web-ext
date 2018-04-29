@@ -13,6 +13,7 @@ interface SliderProps {
   value?: number;
   onInput?: (value: number) => void;
   step?: number;
+  withTooltip?: boolean;
   name: string;
   min: number;
   max: number;
@@ -30,7 +31,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   };
 
   public render(): JSX.Element {
-    const { label, ...inputProps } = this.props;
+    const { label, withTooltip = true, ...inputProps } = this.props;
 
     return (
       <InputWrapper>
@@ -42,14 +43,14 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           onInput={this.handleInput}
           innerRef={this.setRef}
         />
-        <Value>{this.state.value}</Value>
+        {withTooltip && <Value>{this.state.value}</Value>}
       </InputWrapper>
     );
   }
 
   @autobind
   private setRef(element: any): void {
-    if (!this.state.init) {
+    if (!this.state.init && !this.props.value) {
       setTimeout(() => {
         this.setState({ value: element.value, init: true });
       }, 500);
@@ -92,7 +93,7 @@ const Value = glamorous.span<WithTheme>(({ theme }) => ({
   },
 }));
 
-const RangeInput = glamorous.input<WithTheme>(({ theme }) => ({
+export const RangeInput = glamorous.input<WithTheme>(({ theme }) => ({
   alignSelf: 'center',
   background: theme.lightGrey,
   borderRadius: '5px',
@@ -103,7 +104,7 @@ const RangeInput = glamorous.input<WithTheme>(({ theme }) => ({
   width: 'calc(100% - (73px))',
 
   '::-moz-range-thumb': {
-    background: theme.secondaryColor,
+    background: theme.lightGrey,
     border: 0,
     borderRadius: '50%',
     cursor: 'pointer',

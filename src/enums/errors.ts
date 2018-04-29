@@ -1,0 +1,9 @@
+export enum ErrorCode {
+  SUCCESS = 0,
+  INVALID_PARAMETERS = 101,
+  EXPIRED_CAST = 102,
+  NO_CAST = 103,
+  CAST_LOADING = 104,
+  NEW_CASTER = 105,
+  UNKNOWN = 1000,
+}

@@ -1,8 +1,10 @@
 import glamorous from 'glamorous';
+import { QueueingSubject } from 'queueing-subject';
 import React from 'react';
 
 import { CastButton } from '../../components/CastButton';
 import { ControlBar } from '../../components/ControlBar';
+import { WebSocket } from '../../containers/WebSocket';
 import { WithTheme } from '../../style/theme';
 
 const props = {
@@ -27,10 +29,18 @@ const props = {
 };
 
 export const PopupLayout: React.SFC<{}> = ({ children }) => (
-  <Layout>
-    <CastButton />
-    <ControlBar {...props} />
-  </Layout>
+  <WebSocket
+    connectionStatus={0}
+    messages={''}
+    ws$={new QueueingSubject<string>()}
+  >
+    {() => (
+      <Layout>
+        <CastButton />
+        <ControlBar {...props} />
+      </Layout>
+    )}
+  </WebSocket>
 );
 
 const Layout = glamorous.div<WithTheme>(({ theme }) => ({

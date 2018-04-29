@@ -19,7 +19,9 @@ interface OptionsProps {
   onSubmit: () => void;
 }
 
-class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
+class BasicOptionsForm extends React.Component<
+  OptionsProps & InjectedIntlProps
+> {
   private subscription: Subscription;
   public componentDidMount(): void {
     this.subscription = this.props
@@ -32,8 +34,7 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
   }
 
   public render(): JSX.Element {
-    const { intl, castIp, maxVolume } = this.props;
-    console.log(maxVolume);
+    const { intl, castIp } = this.props;
     return (
       <Form>
         <TextInput
@@ -73,13 +74,13 @@ class OptionsForm extends React.Component<OptionsProps & InjectedIntlProps> {
   }
 }
 
-const OptionFormWithIntl = injectIntl<OptionsProps>(OptionsForm as any);
+const OptionFormWithIntl = injectIntl<OptionsProps>(BasicOptionsForm as any);
 
-export default rxForm<OptionsProps & { intl?: InjectedIntl }>({
+export const OptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
   debounce: 2000,
   fields: {
     castIp: {
-      validation: (value: string, formValue, { intl }) => {
+      validation: (value: string, formValue, { intl, ...props }) => {
         if (value !== '') {
           return validateIpAdress(value)
             ? undefined

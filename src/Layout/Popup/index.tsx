@@ -1,24 +1,12 @@
 import glamorous from 'glamorous';
-import { QueueingSubject } from 'queueing-subject';
 import React from 'react';
-import { adopt } from 'react-adopt';
+import { IntlProvider } from 'react-intl';
 
-import { CastButton } from '../../components/CastButton';
 import { ControlBar } from '../../components/ControlBar';
-import { Tab } from '../../containers/Tab';
-import { WebSocket } from '../../containers/WebSocket';
+import { PopupHeader } from '../../containers/PopupHeader';
+import { ThemeProvider } from '../../containers/ThemeProvider';
+import { getTranslations } from '../../helpers/i18n';
 import { WithTheme } from '../../style/theme';
-
-const Composed = adopt({
-  websocket: (
-    <WebSocket
-      connectionStatus={0}
-      messages={''}
-      ws$={new QueueingSubject<string>()}
-    />
-  ),
-  tab: <Tab url="" />,
-});
 
 const props = {
   actions: {
@@ -42,14 +30,18 @@ const props = {
 };
 
 export const PopupLayout: React.SFC<{}> = ({ children }) => (
-  <Composed>
-    {() => (
+  <IntlProvider
+    locale={navigator.language}
+    messages={getTranslations()}
+    defaultLocale="en"
+  >
+    <ThemeProvider>
       <Layout>
-        <CastButton />
+        <PopupHeader />
         <ControlBar {...props} />
       </Layout>
-    )}
-  </Composed>
+    </ThemeProvider>
+  </IntlProvider>
 );
 
 const Layout = glamorous.div<WithTheme>(({ theme }) => ({

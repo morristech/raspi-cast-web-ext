@@ -74,9 +74,7 @@ class BasicOptionsForm extends React.Component<
   }
 }
 
-const OptionFormWithIntl = injectIntl<OptionsProps>(BasicOptionsForm as any);
-
-export const OptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
+const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
   debounce: 2000,
   fields: {
     castIp: {
@@ -95,4 +93,6 @@ export const OptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
   },
   value$: store.pluck('settings').pipe(skip(1)) as Observable<any>,
   valueChangeObs: true,
-})(OptionFormWithIntl);
+})(BasicOptionsForm);
+
+export const OptionsForm = injectIntl<OptionsProps>(RxOptionsForm as any);

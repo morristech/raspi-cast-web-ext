@@ -1,26 +1,21 @@
 import { css } from 'glamor';
-import { ThemeProvider } from 'glamorous';
 import React from 'react';
 import { render } from 'react-dom';
-import { IntlProvider } from 'react-intl';
+import { setObservableConfig } from 'recompose';
+import { from } from 'rxjs';
 
-import { getTranslations } from './helpers/i18n';
 import { PopupLayout } from './Layout/Popup';
-import { theme } from './style/theme';
+import { connectToWsServer, initPageUrl, initSettings } from './store';
 
 css.global('button::-moz-focus-inner,button::-moz-focus-outer { border: 0; }');
 css.global('input::-moz-focus-inner,input::-moz-focus-outer { border: 0; }');
 
-const Popup = () => (
-  <IntlProvider
-    locale={navigator.language}
-    messages={getTranslations()}
-    defaultLocale="en"
-  >
-    <ThemeProvider theme={theme}>
-      <PopupLayout />
-    </ThemeProvider>
-  </IntlProvider>
-);
+setObservableConfig({
+  fromESObservable: from,
+  toESObservable: stream => stream,
+});
+connectToWsServer();
+initSettings();
+initPageUrl();
 
-render(<Popup />, document.getElementById('popup-app'));
+render(<PopupLayout />, document.getElementById('popup-app'));

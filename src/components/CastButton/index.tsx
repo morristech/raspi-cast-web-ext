@@ -5,14 +5,16 @@ import { WithTheme } from '../../style/theme';
 import { Icon } from '../Icon';
 
 interface CastButtonProps {
-  isCasting?: boolean;
+  isPlaying?: boolean;
+  onClick: (e: any) => void;
+  style?: any;
 }
 /* I use before and after class here because i was unbale to figure out how
  * to use :focus:before selector with glamorous.
  */
-export const CastButton: React.SFC<CastButtonProps> = () => (
-  <ButtonWrapper>
-    <Button>
+export const CastButton: React.SFC<CastButtonProps> = ({ onClick, style }) => (
+  <ButtonWrapper style={style}>
+    <Button onClick={onClick}>
       <span className="before" />
       <span className="after" />
       <Icon name="cast" size={5} />

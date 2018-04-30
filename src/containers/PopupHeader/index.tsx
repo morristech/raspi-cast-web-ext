@@ -17,18 +17,12 @@ export const PopupHeader = componentFromStream(props$ =>
       <Header hasMessage={isPlaying}>
         <CastButton
           onClick={handleCast.bind({}, !isPlaying)}
-          style={getCastButtonStyle(isPlaying)}
+          isPlaying={isPlaying}
         />
       </Header>
     )),
   ),
 );
-
-const getCastButtonStyle = (isPlaying: boolean) => ({
-  flex: isPlaying ? 0 : 1,
-  transition: 'flex .3s ease-out',
-  selfAlign: isPlaying ? 'flex-start' : 'center',
-});
 
 const Header = glamorous.header<{ hasMessage: boolean }>(({ hasMessage }) => ({
   display: 'flex',

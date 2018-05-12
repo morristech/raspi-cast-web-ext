@@ -2,14 +2,13 @@ import autobind from 'autobind-decorator';
 import React from 'react';
 import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl';
 import { FieldProp, rxForm } from 'rx-react-form';
-import { Observable, Subscription } from 'rxjs';
-import { map, skip } from 'rxjs/operators';
+import { from, Observable, Subscription } from 'rxjs';
+import { map, skip, tap } from 'rxjs/operators';
 
 import { Form } from '../../components/Form';
 import { Slider } from '../../components/Slider';
 import { TextInput } from '../../components/TextInput';
 import { validateIpAdress } from '../../helpers/validators';
-import { store } from '../../store';
 
 interface OptionsProps {
   valueChange$?: Observable<any>;
@@ -26,7 +25,7 @@ class BasicOptionsForm extends React.Component<
   public componentDidMount(): void {
     this.subscription = this.props
       .valueChange$!.pipe(skip(1), map(this.reduceFormValue))
-      .subscribe(settings => store.dispatch({ setSettings: settings }));
+      .subscribe(settings => browser.storage.local.set(settings));
   }
 
   public componentWillUnmount(): void {
@@ -91,7 +90,10 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
     maxVolume: {},
     minVolume: {},
   },
-  value$: store.pluck('settings').pipe(skip(1)) as Observable<any>,
+  value$: from(browser.storage.local.get('castIp')).pipe(
+    tap(console.log),
+    map(({ castIp }) => ({ castIp })),
+  ) as Observable<any>,
   valueChangeObs: true,
 })(BasicOptionsForm);
 

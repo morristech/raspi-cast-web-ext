@@ -48,7 +48,7 @@ module.exports = {
   optionsTemplate: resolveApp('src/templates/options.html'),
   popupTemplate: resolveApp('src/templates/popup.html'),
   appPackageJson: resolveApp('package.json'),
-  dotenv: resolveApp('.env'),
+  dotenv: resolveApp(`env/${process.env.NODE_ENV}.env`),
   appSrc: resolveApp('src'),
   testsSetup: resolveApp('src/setupTests.ts'),
   yarnLockFile: resolveApp('yarn.lock'),

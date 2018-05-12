@@ -1,4 +1,4 @@
-import { addLocaleData } from 'react-intl';
+import { addLocaleData, IntlProvider } from 'react-intl';
 import enData from 'react-intl/locale-data/en';
 import frData from 'react-intl/locale-data/fr';
 
@@ -16,3 +16,14 @@ export const getTranslations = () => {
       return en;
   }
 };
+
+const { intl } = new IntlProvider(
+  {
+    locale: navigator.language,
+    messages: getTranslations(),
+    defaultLocale: 'en',
+  },
+  {},
+).getChildContext();
+
+export default intl;

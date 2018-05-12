@@ -15,7 +15,6 @@
     "immutable-lens": "^0.2.0",
     "lenrix": "^0.3.32",
     "material-icons": "^0.2.2",
-    "queueing-subject": "^0.2.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-intl": "^2.4.0",
@@ -24,7 +23,7 @@
     "rx-react-form": "^1.6.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
-    "rxjs-websockets": "^4.0.0",
+    "socket.io-client": "^2.1.0",
     "vanilla-text-mask": "^5.0.3"
   },
   "devDependencies": {
@@ -34,6 +33,7 @@
     "@types/react-dom": "^16.0.5",
     "@types/react-intl": "^2.3.8",
     "@types/recompose": "^0.26.1",
+    "@types/socket.io-client": "^1.4.32",
     "autoprefixer": "7.1.6",
     "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.2",
@@ -75,6 +75,7 @@
     "webpack-dev-server": "2.9.4"
   },
   "scripts": {
+    "dev": "",
     "build": "node scripts/build.js",
     "lint": "tslint src/**/*.ts",
     "test": "node scripts/test.js --env=jsdom"

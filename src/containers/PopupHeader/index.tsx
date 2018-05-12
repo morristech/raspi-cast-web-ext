@@ -1,22 +1,23 @@
 import glamorous from 'glamorous';
 import React from 'react';
 import { componentFromStream } from 'recompose';
-import { map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { CastButton } from '../../components/CastButton';
 import { store } from '../../store';
 
-const handleCast = (cast: boolean): void => {
-  store.dispatch({ cast });
+const handleCast = (pageUrl: string): void => {
+  store.dispatch({ cast: pageUrl });
 };
 
 export const PopupHeader = componentFromStream(props$ =>
-  store.pluck('isPlaying').pipe(
-    map(isPlaying => ({ isPlaying })),
-    map(({ isPlaying }) => (
+  combineLatest(store.pluck('isPlaying'), store.pluck('pageUrl')).pipe(
+    tap(console.log),
+    map(([isPlaying, pageUrl]) => (
       <Header hasMessage={isPlaying}>
         <CastButton
-          onClick={handleCast.bind({}, !isPlaying)}
+          onClick={handleCast.bind({}, pageUrl)}
           isPlaying={isPlaying}
         />
       </Header>

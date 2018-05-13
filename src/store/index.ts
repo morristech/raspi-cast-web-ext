@@ -17,11 +17,11 @@ export const store = createStore<State>(initialState)
     setError: error => lens.focusPath('error').setValue(error),
   }))
   .sideEffects({
-    cast: pageUrl => socket.emit('cast', pageUrl),
+    cast: castOptions => socket.emit('cast', castOptions),
     play: () => socket.emit('play'),
     pause: () => socket.emit('pause'),
     status: () => socket.emit('status'),
-    duration: duration => socket.emit('duration', duration),
+    duration: () => socket.emit('duration'),
     position: position => socket.emit('position', position),
     volume: volume => socket.emit('volume', volume),
     seek: position => socket.emit('seek', position),
@@ -38,17 +38,20 @@ store
       socket = io(`http://${castIp}:${process.env.REACT_APP_SOCKET_PORT}`);
 
       merge(
-        fromEvent(socket, 'cast').pipe(
-          map(() => [{ isPending: false, isPlaying: false }]),
-        ),
-        fromEvent(socket, 'play').pipe(map(() => [{ isPlaying: true }])),
-        fromEvent(socket, 'pause').pipe(map(() => [{ isPlaying: false }])),
-        fromEvent(socket, 'status').pipe(map((status: string) => [{ status }])),
+        // fromEvent(socket, 'play').pipe(map(() => [{ status:  }])),
+        // fromEvent(socket, 'pause').pipe(map(() => [{ isPlaying: false }])),
+        fromEvent(socket, 'status').pipe(map(status => [{ status }])),
+        fromEvent(socket, 'meta').pipe(map(meta => ({ meta: { meta } }))),
         fromEvent(socket, 'duration').pipe(
-          map((duration: number) => [{ duration }]),
+          map((duration: number) => [
+            { duration: Math.round(duration / 1000 / 1000) },
+            { isPending: false },
+          ]),
         ),
         fromEvent(socket, 'position').pipe(
-          map((position: number) => [{ position }]),
+          map((position: number) => [
+            { position: Math.round(position / 1000 / 1000) },
+          ]),
         ),
         fromEvent(socket, 'volume').pipe(map((volume: number) => [{ volume }])),
       ).subscribe((updates: any[]) => {
@@ -56,6 +59,7 @@ store
           store.dispatch({ setState: update });
         });
       });
+      socket.emit('status');
     }),
   )
   .subscribe();

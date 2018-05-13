@@ -1,15 +1,17 @@
+import { PlaybackStatus } from '../../enums/PlaybackStatus';
 import { State } from './types';
 
 export const initialState: State = {
-  isPlaying: false,
-  isPending: true,
+  status: PlaybackStatus.STOPPED,
+  isPending: false,
   positionPending: false,
   position: 0,
   duration: 0,
   volume: 0,
+  muted: false,
   castIp: '',
   pageUrl: '',
-  castUrl: '',
   theme: 'default',
   previouslyWatched: [],
+  meta: {},
 };

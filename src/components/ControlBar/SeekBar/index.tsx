@@ -9,8 +9,8 @@ interface SeekBarProps {
     seek: (e: any) => void;
   };
   progress: {
-    seekProgress: number;
-    fluxDuration: number;
+    position: number;
+    duration: number;
   };
   seekAllowed: boolean;
 }
@@ -24,8 +24,8 @@ export class SeekBar extends React.PureComponent<SeekBarProps> {
         <RangeInput
           type="range"
           min={0}
-          max={progress.fluxDuration}
-          value={progress.seekProgress}
+          max={progress.duration}
+          value={progress.position}
           onChange={actions.seek}
           disabled={!seekAllowed}
           style={{ position: 'absolute', width: '100%' }}

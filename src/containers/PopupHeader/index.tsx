@@ -2,24 +2,31 @@ import glamorous from 'glamorous';
 import React from 'react';
 import { componentFromStream } from 'recompose';
 import { combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { CastButton } from '../../components/CastButton';
+import { MetaCard } from '../../components/MetaCard';
+import { CastType } from '../../enums/CastType';
 import { store } from '../../store';
+import { isPlaying$, meta$, pageUrl$ } from '../../store/selectors';
 
 const handleCast = (pageUrl: string): void => {
-  store.dispatch({ cast: pageUrl });
+  store.dispatch({ cast: { data: pageUrl, type: CastType.YOUTUBEDL } });
+};
+
+const handleStop = () => {
+  store.dispatch({ quit: undefined });
 };
 
 export const PopupHeader = componentFromStream(props$ =>
-  combineLatest(store.pluck('isPlaying'), store.pluck('pageUrl')).pipe(
-    tap(console.log),
-    map(([isPlaying, pageUrl]) => (
-      <Header hasMessage={isPlaying}>
+  combineLatest(isPlaying$, pageUrl$, meta$).pipe(
+    map(([isPlaying, pageUrl, meta]) => (
+      <Header hasMessage={!isPlaying}>
         <CastButton
-          onClick={handleCast.bind({}, pageUrl)}
+          onClick={isPlaying ? handleStop : handleCast.bind({}, pageUrl)}
           isPlaying={isPlaying}
         />
+        {isPlaying && <MetaCard {...meta} />}
       </Header>
     )),
   ),

@@ -11,6 +11,8 @@ export interface Theme {
   lightGrey: string;
   white: string;
   progressHeight: string;
+  textSize: string;
+  textSizeLg: string;
 }
 
 export interface WithTheme {
@@ -28,4 +30,6 @@ export const theme: Theme = {
   popupWidth: 600,
   popupHeight: 400,
   progressHeight: '4px',
+  textSize: '0.6em',
+  textSizeLg: '0.8em',
 };

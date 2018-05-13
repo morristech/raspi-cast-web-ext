@@ -3,21 +3,22 @@ export interface PreviouslyWatched {
   url: string;
 }
 
-// interface Settings {
-//   castIp: string;
-//   maxVolume: number;
-//   minVolume: number;
-// }
+interface CastMeta {
+  title?: string;
+  description?: string;
+  thumbnail?: string;
+}
 
 export interface State {
-  isPlaying: boolean;
+  meta: CastMeta;
+  status: string;
   isPending: boolean;
-  castUrl: string;
   pageUrl: string;
   error?: Error;
   duration: number;
   position: number;
   volume: number;
+  muted: boolean;
   positionPending: boolean;
   previouslyWatched: PreviouslyWatched[];
   castIp: string;
@@ -25,11 +26,11 @@ export interface State {
 }
 
 export interface Actions {
-  cast: string;
+  cast: CastOptions;
   play: void;
   pause: void;
   quit: void;
-  status: string | void;
+  status: void;
   position: number | void;
   duration: number | void;
   seek: number;
@@ -44,4 +45,11 @@ export interface StoreState {
   computedValues: {};
   actions: Actions;
   dependencies: {};
+}
+
+export type CastType = 'youtubedl';
+
+export interface CastOptions {
+  type: CastType;
+  data: string;
 }

@@ -5,9 +5,8 @@ import React from 'react';
 import { WithTheme } from '../../../style/theme';
 
 interface TimeProps {
-  start: number;
-  remaining: number;
-  end: number;
+  position: number;
+  duration: number;
   style?: any;
 }
 
@@ -21,17 +20,16 @@ export class Time extends React.PureComponent<TimeProps, TimeState> {
   };
 
   public render(): JSX.Element {
-    const { start = 0, remaining = 0, end = 0, style } = this.props;
-
+    const { duration, position, style } = this.props;
     const { displayRemaining } = this.state;
 
     return (
       <TimeWrapper style={style} onClick={this.handleClick}>
         <TimeLabel>
           {displayRemaining
-            ? `- ${this.formatSeconds(remaining)}`
-            : this.formatSeconds(start)}{' '}
-          / {this.formatSeconds(end)}
+            ? `- ${this.formatSeconds(duration - position)}`
+            : this.formatSeconds(position)}{' '}
+          / {this.formatSeconds(duration)}
         </TimeLabel>
       </TimeWrapper>
     );

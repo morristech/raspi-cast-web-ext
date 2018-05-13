@@ -16,15 +16,13 @@ interface ControlBarProps {
     slide: (e: any) => void;
   };
   progress: {
-    seekProgress: number;
-    fluxDuration: number;
+    position: number;
+    duration: number;
   };
   player: {
     playing: boolean;
     volume: number;
     muted: boolean;
-    loading: boolean;
-    error: boolean;
   };
 }
 
@@ -38,17 +36,9 @@ export class ControlBar extends React.PureComponent<ControlBarProps> {
         {!player.playing && <Control action={play} icon="play" />}
         {player.playing && <Control action={pause} icon="pause" />}
 
-        <SeekBar
-          progress={progress}
-          actions={seekActions}
-          seekAllowed={!player.loading && !player.error}
-        />
+        <SeekBar progress={progress} actions={seekActions} seekAllowed={true} />
 
-        <Time
-          start={progress.seekProgress}
-          remaining={progress.fluxDuration - progress.seekProgress}
-          end={progress.fluxDuration}
-        />
+        <Time {...progress} />
 
         <Volume volume={player.volume} setVolume={setVolume} />
       </ControlBarWrapper>

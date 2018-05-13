@@ -3,7 +3,7 @@ import React from 'react';
 import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl';
 import { FieldProp, rxForm } from 'rx-react-form';
 import { from, Observable, Subscription } from 'rxjs';
-import { map, skip, tap } from 'rxjs/operators';
+import { map, skip } from 'rxjs/operators';
 
 import { Form } from '../../components/Form';
 import { Slider } from '../../components/Slider';
@@ -91,7 +91,6 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
     minVolume: {},
   },
   value$: from(browser.storage.local.get('castIp')).pipe(
-    tap(console.log),
     map(({ castIp }) => ({ castIp })),
   ) as Observable<any>,
   valueChangeObs: true,

@@ -10,6 +10,13 @@ import { Volume } from '../../components/Volume';
 import { store } from '../../store';
 import { WithTheme } from '../../style/theme';
 
+const actions = {
+  pause: () => store.dispatch({ pause: undefined }),
+  play: () => store.dispatch({ play: undefined }),
+  setVolume: (volume: number) => store.dispatch({ volume }),
+  seek: (seek: number) => store.dispatch({ seek }),
+};
+
 export const ControlBar = componentFromStream(props$ =>
   store
     .pick(
@@ -20,47 +27,46 @@ export const ControlBar = componentFromStream(props$ =>
       'volume',
       'minVolume',
       'maxVolume',
+      'isPending',
     )
     .pipe(
-      map(({ duration, position, ...props }) => ({
-        ...props,
-        progress: {
+      map(
+        ({
+          isPlaying,
           duration,
           position,
-        },
-        actions: {
-          pause: () => store.dispatch({ pause: undefined }),
-          play: () => store.dispatch({ play: undefined }),
-          setVolume: (volume: number) => store.dispatch({ volume }),
-          seek: console.log,
-        },
-      })),
-      map(({ isPlaying, progress, volume, actions, maxVolume, minVolume }) => (
-        <ControlBarWrapper>
-          {!isPlaying && (
-            <Control action={actions.play} icon="play" disabled={false} />
-          )}
-          {isPlaying && (
-            <Control action={actions.pause} icon="pause" disabled={false} />
-          )}
+          volume,
+          maxVolume,
+          minVolume,
+          isPending,
+        }) => (
+          <ControlBarWrapper>
+            {!isPlaying && (
+              <Control action={actions.play} icon="play" disabled={false} />
+            )}
+            {isPlaying && (
+              <Control action={actions.pause} icon="pause" disabled={false} />
+            )}
 
-          <SeekBar
-            progress={progress}
-            seek={actions.seek}
-            seekAllowed={isPlaying}
-          />
+            <SeekBar
+              duration={duration}
+              position={position}
+              seek={actions.seek}
+              seekAllowed={!isPending}
+            />
 
-          <Time {...progress} />
+            <Time duration={duration} position={position} />
 
-          <Volume
-            volume={volume}
-            setVolume={actions.setVolume}
-            maxVolume={maxVolume}
-            minVolume={minVolume}
-            disabled={!isPlaying}
-          />
-        </ControlBarWrapper>
-      )),
+            <Volume
+              volume={volume}
+              setVolume={actions.setVolume}
+              maxVolume={maxVolume}
+              minVolume={minVolume}
+              disabled={!isPlaying}
+            />
+          </ControlBarWrapper>
+        ),
+      ),
     ),
 );
 

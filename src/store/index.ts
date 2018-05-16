@@ -14,6 +14,7 @@ export const store = createStore<State>(initialState)
     setState: update => lens.setFields(update),
     setError: error => lens.focusPath('error').setValue(error),
     volume: volume => lens.focusPath('volume').setValue(volume),
+    seek: () => lens.focusPath('isPending').setValue(true),
   }))
   .compute(({ status }) => ({
     isPlaying: status === PlaybackStatus.PLAYING,
@@ -41,6 +42,7 @@ store
         fromEvent(socket, 'initialState'),
         fromEvent(socket, 'status'),
         fromEvent(socket, 'position'),
+        fromEvent(socket, 'seek'),
       ).subscribe((updates: any) => store.dispatch({ setState: updates }));
 
       socket.emit('initialState');

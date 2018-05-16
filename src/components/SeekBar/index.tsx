@@ -1,3 +1,4 @@
+import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
@@ -6,25 +7,45 @@ import { RangeInput } from '../Slider';
 
 interface SeekBarProps {
   seek: (e: any) => void;
-  progress: {
-    position: number;
-    duration: number;
-  };
+  position: number;
+  duration: number;
   seekAllowed: boolean;
 }
 
-export class SeekBar extends React.PureComponent<SeekBarProps> {
+interface SeekBarState {
+  position: number;
+}
+
+export class SeekBar extends React.PureComponent<SeekBarProps, SeekBarState> {
+  public state: SeekBarState = {
+    position: this.props.position,
+  };
+
+  public static getDerivedStateFromProps(
+    { position, seekAllowed }: SeekBarProps,
+    state: SeekBarState,
+  ): Partial<SeekBarState> {
+    return seekAllowed ? { position } : state;
+  }
+
+  @autobind
+  private handleChange(evt: any): void {
+    this.setState({ position: evt.target.value }, () =>
+      this.props.seek(this.state.position),
+    );
+  }
+
   public render(): JSX.Element {
-    const { seek, progress, seekAllowed = true } = this.props;
+    const { duration, seekAllowed = true } = this.props;
 
     return (
       <SeekbarContainer>
         <RangeInput
           type="range"
           min={0}
-          max={progress.duration}
-          value={progress.position}
-          onChange={seek}
+          max={duration}
+          value={this.state.position}
+          onChange={this.handleChange}
           disabled={!seekAllowed}
           style={{ position: 'absolute', width: '100%' }}
         />
@@ -40,4 +61,5 @@ const SeekbarContainer = glamorous.div<WithTheme>(({ theme }) => ({
   width: '100%',
   height: theme.progressHeight,
   borderRadius: '4px',
+  cursor: 'pointer',
 }));

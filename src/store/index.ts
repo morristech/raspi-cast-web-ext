@@ -17,6 +17,7 @@ export const store = createStore<State>(initialState)
   }))
   .compute(({ status }) => ({
     isPlaying: status === PlaybackStatus.PLAYING,
+    isStopped: status === PlaybackStatus.STOPPED,
   }))
   .sideEffects({
     cast: castOptions => socket.emit('cast', castOptions),

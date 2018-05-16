@@ -1,3 +1,4 @@
+import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
@@ -23,6 +24,7 @@ export class Control extends React.PureComponent<ControlProps> {
     );
   }
 
+  @autobind
   private handleClick(evt: any): void {
     const { action = noop, disabled } = this.props;
 

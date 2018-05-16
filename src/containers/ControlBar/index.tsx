@@ -37,32 +37,28 @@ export const ControlBar = componentFromStream(props$ =>
       })),
       map(({ isPlaying, progress, volume, actions, maxVolume, minVolume }) => (
         <ControlBarWrapper>
-          {isPlaying && (
-            <React.Fragment>
-              {!isPlaying && (
-                <Control action={actions.play} icon="play" disabled={false} />
-              )}
-              {isPlaying && (
-                <Control action={actions.pause} icon="pause" disabled={false} />
-              )}
-
-              <SeekBar
-                progress={progress}
-                seek={actions.seek}
-                seekAllowed={isPlaying}
-              />
-
-              <Time {...progress} />
-
-              <Volume
-                volume={volume}
-                setVolume={actions.setVolume}
-                maxVolume={maxVolume}
-                minVolume={minVolume}
-                disabled={!isPlaying}
-              />
-            </React.Fragment>
+          {!isPlaying && (
+            <Control action={actions.play} icon="play" disabled={false} />
           )}
+          {isPlaying && (
+            <Control action={actions.pause} icon="pause" disabled={false} />
+          )}
+
+          <SeekBar
+            progress={progress}
+            seek={actions.seek}
+            seekAllowed={isPlaying}
+          />
+
+          <Time {...progress} />
+
+          <Volume
+            volume={volume}
+            setVolume={actions.setVolume}
+            maxVolume={maxVolume}
+            minVolume={minVolume}
+            disabled={!isPlaying}
+          />
         </ControlBarWrapper>
       )),
     ),

@@ -17,14 +17,14 @@ const handleStop = () => {
 };
 
 export const PopupHeader = componentFromStream(props$ =>
-  store.pick('isPlaying', 'pageUrl', 'meta').pipe(
-    map(({ isPlaying, pageUrl, meta }) => (
-      <Header hasMessage={!isPlaying}>
+  store.pick('isStopped', 'pageUrl', 'meta').pipe(
+    map(({ isStopped, pageUrl, meta }) => (
+      <Header hasMessage={isStopped}>
         <CastButton
-          onClick={isPlaying ? handleStop : handleCast.bind({}, pageUrl)}
-          isPlaying={isPlaying}
+          onClick={!isStopped ? handleStop : handleCast.bind({}, pageUrl)}
+          isPlaying={!isStopped}
         />
-        {isPlaying && <MetaCard {...meta} />}
+        {!isStopped && <MetaCard {...meta} />}
       </Header>
     )),
   ),

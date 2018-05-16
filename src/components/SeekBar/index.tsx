@@ -1,13 +1,11 @@
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../../style/theme';
-import { RangeInput } from '../../Slider';
+import { WithTheme } from '../../style/theme';
+import { RangeInput } from '../Slider';
 
 interface SeekBarProps {
-  actions: {
-    seek: (e: any) => void;
-  };
+  seek: (e: any) => void;
   progress: {
     position: number;
     duration: number;
@@ -17,7 +15,7 @@ interface SeekBarProps {
 
 export class SeekBar extends React.PureComponent<SeekBarProps> {
   public render(): JSX.Element {
-    const { actions, progress, seekAllowed = true } = this.props;
+    const { seek, progress, seekAllowed = true } = this.props;
 
     return (
       <SeekbarContainer>
@@ -26,7 +24,7 @@ export class SeekBar extends React.PureComponent<SeekBarProps> {
           min={0}
           max={progress.duration}
           value={progress.position}
-          onChange={actions.seek}
+          onChange={seek}
           disabled={!seekAllowed}
           style={{ position: 'absolute', width: '100%' }}
         />

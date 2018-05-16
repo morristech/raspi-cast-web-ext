@@ -2,39 +2,47 @@ import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { RangeInput } from '../../Slider';
 import { Control } from '../Control';
-
-export const MIN_VOLUME = 0;
-export const MAX_VOLUME = 10;
+import { RangeInput } from '../Slider';
 
 interface VolumeProps {
+  maxVolume: number;
+  minVolume: number;
   volume: number;
   setVolume: (e: any) => void;
   onShow?: () => void;
   style?: any;
+  disabled?: boolean;
 }
 
 interface VolumeState {
   visible: boolean;
+  volume: number;
 }
 
 export class Volume extends React.PureComponent<VolumeProps, VolumeState> {
   public state: VolumeState = {
     visible: false,
+    volume: this.props.volume,
   };
 
   private timeoutShow: any = undefined;
   private timeoutHide: any = undefined;
+
+  public static getDerivedStateFromProps({
+    volume,
+  }: VolumeProps): Partial<VolumeState> {
+    return { volume };
+  }
 
   public componentWillUnmount(): void {
     this.clearTimeoutShow();
   }
 
   public render(): JSX.Element {
-    const { visible } = this.state;
+    const { visible, volume } = this.state;
 
-    const { setVolume, style } = this.props;
+    const { maxVolume, minVolume, style, disabled } = this.props;
 
     return (
       <VolumeWrapper style={style} onMouseMove={this.handleMouseMove}>
@@ -42,15 +50,23 @@ export class Volume extends React.PureComponent<VolumeProps, VolumeState> {
         <ProgressWrapper visible={visible}>
           <RangeInput
             type="range"
-            min={MIN_VOLUME}
-            max={MAX_VOLUME}
-            // value={volume}
-            onChange={setVolume}
-            disabled={false}
+            min={minVolume}
+            max={maxVolume}
+            step={0.01}
+            value={volume}
+            onChange={this.handleVolumeChange}
+            disabled={disabled}
             style={{ width: '100%' }}
           />
         </ProgressWrapper>
       </VolumeWrapper>
+    );
+  }
+
+  @autobind
+  private handleVolumeChange(evt: any): void {
+    this.setState({ volume: evt.target.value }, () =>
+      this.props.setVolume(this.state.volume),
     );
   }
 
@@ -78,7 +94,9 @@ export class Volume extends React.PureComponent<VolumeProps, VolumeState> {
   @autobind
   private toggleMute(): void {
     this.props.setVolume(
-      this.props.volume === MIN_VOLUME ? MAX_VOLUME : MIN_VOLUME,
+      this.props.volume === this.props.minVolume
+        ? this.props.maxVolume
+        : this.props.minVolume,
     );
   }
 
@@ -91,7 +109,7 @@ export class Volume extends React.PureComponent<VolumeProps, VolumeState> {
       icon = 'volume-down';
     }
 
-    if (volume === MIN_VOLUME) {
+    if (volume === this.props.minVolume) {
       icon = 'volume-mute';
     }
 

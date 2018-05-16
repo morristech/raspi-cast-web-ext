@@ -90,9 +90,7 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
     maxVolume: {},
     minVolume: {},
   },
-  value$: from(browser.storage.local.get('castIp')).pipe(
-    map(({ castIp }) => ({ castIp })),
-  ) as Observable<any>,
+  value$: from(browser.storage.local.get('castIp')) as Observable<any>,
   valueChangeObs: true,
 })(BasicOptionsForm);
 

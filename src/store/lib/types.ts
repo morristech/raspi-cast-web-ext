@@ -17,11 +17,13 @@ export interface State {
   error?: Error;
   duration: number;
   position: number;
+  maxVolume: number;
+  minVolume: number;
   volume: number;
   muted: boolean;
   positionPending: boolean;
   previouslyWatched: PreviouslyWatched[];
-  castIp: string;
+  castIp?: string;
   theme?: string;
 }
 
@@ -37,7 +39,7 @@ export interface Actions {
   volume: number;
 
   setError: Error;
-  setState: Record<string, any>;
+  setState: Partial<State>;
 }
 
 export interface StoreState {

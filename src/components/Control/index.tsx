@@ -1,9 +1,9 @@
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { noop } from '../../../helpers/noop';
-import { WithTheme } from '../../../style/theme';
-import { Icon } from '../../Icon';
+import { noop } from '../../helpers/noop';
+import { WithTheme } from '../../style/theme';
+import { Icon } from '../Icon';
 
 interface ControlProps {
   action: (...args: any[]) => void;

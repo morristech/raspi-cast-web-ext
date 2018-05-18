@@ -93,11 +93,12 @@ export class Volume extends React.PureComponent<VolumeProps, VolumeState> {
 
   @autobind
   private toggleMute(): void {
-    this.props.setVolume(
+    const volume =
       this.props.volume === this.props.minVolume
         ? this.props.maxVolume
-        : this.props.minVolume,
-    );
+        : this.props.minVolume;
+
+    this.setState({ volume }, () => this.props.setVolume(this.state.volume));
   }
 
   @autobind

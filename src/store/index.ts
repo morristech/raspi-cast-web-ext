@@ -1,6 +1,6 @@
 import { createStore } from 'lenrix';
 import { fromEvent, merge } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { delay, filter, tap } from 'rxjs/operators';
 import io from 'socket.io-client';
 
 import { PlaybackStatus } from '../enums/PlaybackStatus';
@@ -42,7 +42,7 @@ store
         fromEvent(socket, 'initialState'),
         fromEvent(socket, 'status'),
         fromEvent(socket, 'position'),
-        fromEvent(socket, 'seek'),
+        fromEvent(socket, 'seek').pipe(delay(4000)),
       ).subscribe((updates: any) => store.dispatch({ setState: updates }));
 
       socket.emit('initialState');

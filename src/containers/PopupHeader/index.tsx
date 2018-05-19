@@ -3,8 +3,9 @@ import React from 'react';
 import { componentFromStream } from 'recompose';
 import { map } from 'rxjs/operators';
 
+import { Card } from '../../components/Card';
 import { CastButton } from '../../components/CastButton';
-import { MetaCard } from '../../components/MetaCard';
+import { Spinner } from '../../components/Spinner';
 import { CastType } from '../../enums/CastType';
 import { store } from '../../store';
 
@@ -17,22 +18,28 @@ const handleStop = () => {
 };
 
 export const PopupHeader = componentFromStream(props$ =>
-  store.pick('isStopped', 'pageUrl', 'meta').pipe(
-    map(({ isStopped, pageUrl, meta }) => (
-      <Header hasMessage={isStopped}>
-        <CastButton
-          onClick={!isStopped ? handleStop : handleCast.bind({}, pageUrl)}
-          isPlaying={!isStopped}
-        />
-        {!isStopped && <MetaCard {...meta} />}
+  store.pick('isStopped', 'pageUrl', 'meta', 'isPending').pipe(
+    map(({ isStopped, pageUrl, meta, isPending }) => (
+      <Header isStopped={isStopped}>
+        {!isPending && (
+          <React.Fragment>
+            <CastButton
+              onClick={!isStopped ? handleStop : handleCast.bind({}, pageUrl)}
+              isPlaying={!isStopped}
+            />
+            {!isStopped && <Card {...meta} />}
+          </React.Fragment>
+        )}
+        {isPending && <Spinner />}
       </Header>
     )),
   ),
 );
 
-const Header = glamorous.header<{ hasMessage: boolean }>(({ hasMessage }) => ({
+const Header = glamorous.header<{ isStopped: boolean }>(({ isStopped }) => ({
+  height: isStopped ? '100%' : 'inherits',
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'spaceBetween',
+  justifyContent: 'center',
   padding: '0 40px',
 }));

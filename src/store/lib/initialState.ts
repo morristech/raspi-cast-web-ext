@@ -4,6 +4,7 @@ import { State } from './types';
 export const initialState: State = {
   status: PlaybackStatus.STOPPED,
   isPending: false,
+  isSeeking: false,
   positionPending: false,
   position: 0,
   duration: 0,

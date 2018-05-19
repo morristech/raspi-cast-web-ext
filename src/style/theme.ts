@@ -5,6 +5,8 @@ export interface Theme {
   castButtonWidth: string;
   popupWidth: number;
   popupHeight: number;
+  popupWidthPlaying: number;
+  popupHeightPlaying: number;
   primaryColor: string;
   secondaryColor: string;
   errorColor: string;
@@ -13,6 +15,7 @@ export interface Theme {
   progressHeight: string;
   textSize: string;
   textSizeLg: string;
+  spinnerColor: string;
 }
 
 export interface WithTheme {
@@ -27,9 +30,12 @@ export const theme: Theme = {
   secondaryColor: '#2c3e50',
   errorColor: '#ff0033',
   white: '#fff',
-  popupWidth: 600,
-  popupHeight: 400,
+  popupWidth: 300,
+  popupHeight: 250,
+  popupWidthPlaying: 500,
+  popupHeightPlaying: 300,
   progressHeight: '4px',
   textSize: '0.6em',
   textSizeLg: '0.8em',
+  spinnerColor: 'black',
 };

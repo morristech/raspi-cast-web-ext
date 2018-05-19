@@ -13,6 +13,7 @@ export interface State {
   meta: CastMeta;
   status: string;
   isPending: boolean;
+  isSeeking: boolean;
   pageUrl: string;
   error?: Error;
   duration: number;

@@ -14,7 +14,9 @@ export const store = createStore<State>(initialState)
     setState: update => lens.setFields(update),
     setError: error => lens.focusPath('error').setValue(error),
     volume: volume => lens.focusPath('volume').setValue(volume),
-    seek: () => lens.focusPath('isPending').setValue(true),
+    cast: () => lens.focusPath('isPending').setValue(true),
+    initialState: () => lens.focusPath('isPending').setValue(true),
+    seek: () => lens.focusPath('isSeeking').setValue(true),
   }))
   .compute(({ status }) => ({
     isPlaying: status === PlaybackStatus.PLAYING,

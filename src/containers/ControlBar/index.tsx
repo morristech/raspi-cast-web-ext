@@ -27,7 +27,7 @@ export const ControlBar = componentFromStream(props$ =>
       'volume',
       'minVolume',
       'maxVolume',
-      'isPending',
+      'isSeeking',
     )
     .pipe(
       map(
@@ -38,7 +38,7 @@ export const ControlBar = componentFromStream(props$ =>
           volume,
           maxVolume,
           minVolume,
-          isPending,
+          isSeeking,
         }) => (
           <ControlBarWrapper>
             {!isPlaying && (
@@ -52,7 +52,7 @@ export const ControlBar = componentFromStream(props$ =>
               duration={duration}
               position={position}
               seek={actions.seek}
-              seekAllowed={!isPending}
+              seekAllowed={!isSeeking}
             />
 
             <Time duration={duration} position={position} />

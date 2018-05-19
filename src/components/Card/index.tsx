@@ -3,31 +3,29 @@ import React from 'react';
 
 import { WithTheme } from '../../style/theme';
 
-interface MetaCardProps {
+interface CardProps {
   title?: string;
   description?: string;
   thumbnail?: string;
   url?: string;
 }
 
-export const MetaCard: React.SFC<MetaCardProps> = ({
+export const Card: React.SFC<CardProps> = ({
   thumbnail,
   title,
   description,
   url,
 }) => (
-  <Card>
+  <CardWrapper>
+    <Title>{title}</Title>
     <Thumb src={thumbnail} alt={title} />
-    <TextWrapper>
-      <Title>{title}</Title>
-      <Link href={url} target="_blank" />
-    </TextWrapper>
-  </Card>
+    <Link href={url} target="_blank" />
+  </CardWrapper>
 );
 
-const Card = glamorous.div<WithTheme>(({ theme }) => ({
+const CardWrapper = glamorous.div<WithTheme>(({ theme }) => ({
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'spaceBetween',
   padding: '10px 10px',
 }));
@@ -35,13 +33,6 @@ const Card = glamorous.div<WithTheme>(({ theme }) => ({
 const Thumb = glamorous.img({
   width: '100%',
   height: 'auto',
-});
-
-const TextWrapper = glamorous.div({
-  padding: '5px 5px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
 });
 
 const Title = glamorous.h1<WithTheme>(({ theme }) => ({

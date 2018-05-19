@@ -1,7 +1,7 @@
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 import { Icon } from '../Icon';
 
 interface CastButtonProps {
@@ -35,7 +35,7 @@ const Button = glamorous.button<WithTheme & { isPlaying: boolean }>(
     backgroundColor: theme.secondaryColor,
     border: '0 none',
     borderRadius: '50%',
-    color: theme.white,
+    color: theme.textColor,
     display: 'flex',
     height: theme.castButtonWidth,
     lineHeight: theme.castButtonWidth,

@@ -3,18 +3,16 @@ import React from 'react';
 import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl';
 import { FieldProp, rxForm } from 'rx-react-form';
 import { from, Observable, Subscription } from 'rxjs';
-import { map, skip } from 'rxjs/operators';
+import { map, skip, tap } from 'rxjs/operators';
 
 import { Form } from '../../components/Form';
-import { Slider } from '../../components/Slider';
 import { TextInput } from '../../components/TextInput';
 import { validateIpAdress } from '../../helpers/validators';
 
 interface OptionsProps {
   valueChange$?: Observable<any>;
   castIp?: FieldProp;
-  minVolume?: FieldProp;
-  maxVolume?: FieldProp;
+  theme?: FieldProp;
   onSubmit: () => void;
 }
 
@@ -24,7 +22,11 @@ class BasicOptionsForm extends React.Component<
   private subscription: Subscription;
   public componentDidMount(): void {
     this.subscription = this.props
-      .valueChange$!.pipe(skip(1), map(this.reduceFormValue))
+      .valueChange$!.pipe(
+        skip(1),
+        map(this.reduceFormValue),
+        tap(settings => console.log('settings', settings)),
+      )
       .subscribe(settings => browser.storage.local.set(settings));
   }
 
@@ -41,20 +43,14 @@ class BasicOptionsForm extends React.Component<
           name="castIp"
           meta={castIp}
         />
-        <Slider
-          label={intl.formatMessage({ id: 'options.minVolume' })}
-          name="minVolume"
-          min={0}
-          max={5000}
-          step={25}
-        />
-        <Slider
-          label={intl.formatMessage({ id: 'options.maxVolume' })}
-          name="maxVolume"
-          min={0}
-          max={5000}
-          step={25}
-        />
+        <select name="theme">
+          <option value="light">
+            {intl.formatMessage({ id: 'theme.light' })}
+          </option>
+          <option value="dark">
+            {intl.formatMessage({ id: 'theme.dark' })}
+          </option>
+        </select>
       </Form>
     );
   }
@@ -87,10 +83,11 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
         }
       },
     },
-    maxVolume: {},
-    minVolume: {},
+    theme: {},
   },
-  value$: from(browser.storage.local.get('castIp')) as Observable<any>,
+  value$: from(browser.storage.local.get(['castIp', 'theme'])) as Observable<
+    any
+  >,
   valueChangeObs: true,
 })(BasicOptionsForm);
 

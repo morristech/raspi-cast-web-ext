@@ -3,7 +3,7 @@ import glamorous from 'glamorous';
 import React from 'react';
 
 import { noop } from '../../helpers/noop';
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 import { Icon } from '../Icon';
 
 interface ControlProps {
@@ -42,7 +42,7 @@ const ControlWrapper = glamorous.div<WithTheme & { disabled?: boolean }>(
     textAlign: 'center',
     position: 'relative',
     transition: 'background 0.3s',
-    color: theme.white,
+    color: theme.textColor,
     fontSize: '25px',
     lineHeight: '20px',
     borderRadius: '50%',

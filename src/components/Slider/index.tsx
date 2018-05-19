@@ -3,7 +3,7 @@ import { css } from 'glamor';
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 import { InputWrapper } from '../InputWrapper';
 
 css.insert('::-moz-range-track { background: #d7dcdf; border: 0; }');
@@ -71,7 +71,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 const Value = glamorous.span<WithTheme>(({ theme }) => ({
   background: theme.secondaryColor,
   borderRadius: '3px',
-  color: theme.white,
+  color: theme.textColor,
   display: 'inline-block',
   lineHeight: '20px',
   marginLeft: '8px',
@@ -95,7 +95,7 @@ const Value = glamorous.span<WithTheme>(({ theme }) => ({
 
 export const RangeInput = glamorous.input<WithTheme>(({ theme }) => ({
   alignSelf: 'center',
-  background: theme.lightGrey,
+  background: theme.thirdaryColor,
   borderRadius: '5px',
   height: '10px',
   margin: 0,
@@ -104,7 +104,7 @@ export const RangeInput = glamorous.input<WithTheme>(({ theme }) => ({
   width: 'calc(100% - (73px))',
 
   '::-moz-range-thumb': {
-    background: theme.lightGrey,
+    background: theme.thirdaryColor,
     border: 0,
     borderRadius: '50%',
     cursor: 'pointer',

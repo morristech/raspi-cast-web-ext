@@ -2,7 +2,7 @@ import glamorous from 'glamorous';
 import React from 'react';
 import { FieldProp } from 'rx-react-form';
 
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 import { InputWrapper } from '../InputWrapper';
 
 interface TextInputProps {
@@ -29,7 +29,7 @@ export const TextInput: React.SFC<TextInputProps> = ({
 const Input = glamorous.input<WithTheme & { error: boolean }>(
   ({ theme, error }) => ({
     border: 0,
-    borderBottom: `1px solid ${error ? theme.errorColor : theme.lightGrey}`,
+    borderBottom: `1px solid ${error ? theme.errorColor : theme.thirdaryColor}`,
     padding: '7px 0',
     width: '100%',
 

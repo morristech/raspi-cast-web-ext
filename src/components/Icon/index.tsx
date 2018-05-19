@@ -1,7 +1,7 @@
 import { withTheme } from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 
 interface IconProps {
   name: string;

@@ -2,7 +2,7 @@ import glamorous, { withTheme } from 'glamorous';
 import React from 'react';
 import Spinkit from 'react-spinkit';
 
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 
 interface SpinnerProps {
   name?: any;

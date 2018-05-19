@@ -4,6 +4,9 @@
   "options.castIp": "adresse ip de votre picast",
   "options.casIp.invalid": "adresse id invalide",
 
+  "theme.light": "Clair",
+  "theme.dark": "Sombre",
+
   "error.command.unable": "Impossible de se connecter au serveur.",
   "error.command.someone": "Quelqun d'autre cast une video.",
   "error.command.expired": "Votre cast a expire.",

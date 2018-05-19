@@ -14,7 +14,6 @@ export const initialState: State = {
   muted: false,
   castIp: '',
   pageUrl: '',
-  theme: 'default',
   previouslyWatched: [],
   meta: {},
 };

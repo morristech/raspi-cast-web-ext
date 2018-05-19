@@ -2,7 +2,7 @@ import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 
 interface TimeProps {
   position: number;
@@ -56,7 +56,7 @@ export class Time extends React.PureComponent<TimeProps, TimeState> {
 const TimeWrapper = glamorous.div<WithTheme>(({ theme }) => ({
   verticalAlign: '8px',
   cursor: 'pointer',
-  color: theme.white,
+  color: theme.textColor,
   opacity: 0.7,
   ':hover': {
     color: theme.primaryColor,

@@ -8,7 +8,7 @@ import { SeekBar } from '../../components/SeekBar';
 import { Time } from '../../components/Time';
 import { Volume } from '../../components/Volume';
 import { store } from '../../store';
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 
 const actions = {
   pause: () => store.dispatch({ pause: undefined }),

@@ -6,7 +6,7 @@ import { OptionsForm } from '../../containers/OptionsForm';
 import { ThemeProvider } from '../../containers/ThemeProvider';
 import { getTranslations } from '../../helpers/i18n';
 import { noop } from '../../helpers/noop';
-import { WithTheme } from '../../style/theme';
+import { WithTheme } from '../../style/themes/Theme';
 
 export const OptionsLayout: React.SFC<{}> = () => (
   <IntlProvider

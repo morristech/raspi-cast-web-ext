@@ -1,4 +1,4 @@
-import { PlaybackStatus } from '../../enums/PlaybackStatus';
+import { PlaybackStatus } from 'raspi-cast-common';
 import { State } from './types';
 
 export const initialState: State = {
@@ -14,6 +14,4 @@ export const initialState: State = {
   muted: false,
   castIp: '',
   pageUrl: '',
-  previouslyWatched: [],
-  meta: {},
 };

@@ -1,4 +1,5 @@
 import glamorous from 'glamorous';
+import { CastType } from 'raspi-cast-common';
 import React from 'react';
 import { componentFromStream } from 'recompose';
 import { map } from 'rxjs/operators';
@@ -6,7 +7,6 @@ import { map } from 'rxjs/operators';
 import { Card } from '../../components/Card';
 import { CastButton } from '../../components/CastButton';
 import { Spinner } from '../../components/Spinner';
-import { CastType } from '../../enums/CastType';
 import { store } from '../../store';
 
 const handleCast = (pageUrl: string): void => {

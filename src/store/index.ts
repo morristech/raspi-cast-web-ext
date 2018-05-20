@@ -1,9 +1,9 @@
 import { createStore } from 'lenrix';
+import { PlaybackStatus } from 'raspi-cast-common';
 import { fromEvent, merge } from 'rxjs';
 import { delay, filter, tap } from 'rxjs/operators';
 import io from 'socket.io-client';
 
-import { PlaybackStatus } from '../enums/PlaybackStatus';
 import { initialState } from './lib/initialState';
 import { Actions, State } from './lib/types';
 let socket: any;

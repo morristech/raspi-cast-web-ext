@@ -1,16 +1,7 @@
-export interface PreviouslyWatched {
-  date: number;
-  url: string;
-}
-
-interface CastMeta {
-  title?: string;
-  description?: string;
-  thumbnail?: string;
-}
+import { CastMeta, CastOptions } from 'raspi-cast-common';
 
 export interface State {
-  meta: CastMeta;
+  meta?: CastMeta;
   status: string;
   isPending: boolean;
   isSeeking: boolean;
@@ -23,7 +14,6 @@ export interface State {
   volume: number;
   muted: boolean;
   positionPending: boolean;
-  previouslyWatched: PreviouslyWatched[];
   castIp?: string;
   theme?: string;
 }
@@ -41,18 +31,4 @@ export interface Actions {
 
   setError: Error;
   setState: Partial<State>;
-}
-
-export interface StoreState {
-  state: State;
-  computedValues: {};
-  actions: Actions;
-  dependencies: {};
-}
-
-export type CastType = 'youtubedl';
-
-export interface CastOptions {
-  type: CastType;
-  data: string;
 }

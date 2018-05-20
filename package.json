@@ -18,6 +18,7 @@
     "immutable-lens": "^0.3.1",
     "lenrix": "^0.4.0",
     "material-icons": "^0.2.3",
+    "raspi-cast-common": "https://github.com/charjac/raspi-cast-common.git#master",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-intl": "^2.4.0",

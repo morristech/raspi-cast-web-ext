@@ -1,13 +1,12 @@
 {
-  "name": "cast-addon-firefox",
-  "version": "0.0.0",
-  "description": "Firefox addon for the cast software, allowing videos to be cast from Firefox to a Raspberry Pi running the cast software.",
-  "main": "index.js",
+  "name": "raspi-cast-web-ext",
+  "version": "0.0.0-development",
+  "description": "Firefox addon for the cast software, allowing videos to be cast from Firefox to a Raspberry Pi running the picast server.",
   "license": "GNU",
   "bugs": {
-    "url": "https://gitlab.com/charjac/cast-addon-firefox/issues"
+    "url": "https://github.com/charjac/raspi-cast-web-ext/issues"
   },
-  "homepage": "https://gitlab.com/charjac/cast-addon-firefox#README",
+  "homepage": "https://github.com/charjac/raspi-cast-web-ext",
   "dependencies": {
     "autobind-decorator": "^2.1.0",
     "glamor": "^2.20.40",

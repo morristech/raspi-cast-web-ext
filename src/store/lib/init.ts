@@ -1,7 +1,10 @@
 import { store } from '../index';
 
 export const initState = async () => {
-  const [pageUrl, { castIp, theme, notification }]: any = await Promise.all([
+  const [
+    pageUrl,
+    { castIp, theme = 'dark', notification },
+  ]: any = await Promise.all([
     browser.tabs
       .query({
         active: true,

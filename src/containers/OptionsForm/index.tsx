@@ -27,6 +27,15 @@ const themeOptions = [
   { value: 'dark', label: 'theme.dark' },
 ];
 
+const initialValues$ = from(
+  browser.storage.local.get(['castIp', 'theme', 'notification']),
+).pipe(
+  map(({ theme, ...other }) => ({
+    ...other,
+    theme: theme || 'dark',
+  })),
+);
+
 class BasicOptionsForm extends React.Component<
   OptionsProps & InjectedIntlProps
 > {
@@ -109,9 +118,7 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
     },
     theme: {},
   },
-  value$: from(
-    browser.storage.local.get(['castIp', 'theme', 'notification']),
-  ) as any,
+  value$: initialValues$ as any,
   valueChangeObs: true,
 })(BasicOptionsForm as any);
 

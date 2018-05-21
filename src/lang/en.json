@@ -7,6 +7,10 @@
   "theme.light": "Light",
   "theme.dark": "Dark",
 
+  "error.notification": "Error !!!",
+  "error.unsuportedStream": "The stream is not complient with Raspicast.",
+  "error.playerUnavailable": "The Video player is not available.",
+
   "error.command.unable": "Unable to reach cast server.",
   "error.command.someone": "Someone else cast a video.",
   "error.command.expired": "Cast expired.",

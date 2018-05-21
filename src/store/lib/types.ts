@@ -6,7 +6,7 @@ export interface State {
   isPending: boolean;
   isSeeking: boolean;
   pageUrl: string;
-  error?: Error;
+  error?: string;
   duration: number;
   position: number;
   maxVolume: number;
@@ -29,6 +29,6 @@ export interface Actions {
   seek: number;
   volume: number;
 
-  setError: Error;
+  error: string;
   setState: Partial<State>;
 }

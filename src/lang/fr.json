@@ -7,6 +7,10 @@
   "theme.light": "Clair",
   "theme.dark": "Sombre",
 
+  "error.notification": "Erreur !!!",
+  "error.unsuportedStream": "Le stream n'est pas compatible avec raspicast.",
+  "error.playerUnavailable": "Le lecteur video n'est pas disponnible.",
+
   "error.command.unable": "Impossible de se connecter au serveur.",
   "error.command.someone": "Quelqun d'autre cast une video.",
   "error.command.expired": "Votre cast a expire.",

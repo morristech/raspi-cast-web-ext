@@ -4,6 +4,7 @@ import { fromEvent, merge } from 'rxjs';
 import { delay, filter, tap } from 'rxjs/operators';
 import io from 'socket.io-client';
 
+import intl from '../helpers/i18n';
 import { initialState } from './lib/initialState';
 import { Actions, State } from './lib/types';
 let socket: any;
@@ -12,7 +13,7 @@ export const store = createStore<State>(initialState)
   .actionTypes<Actions>()
   .updates(lens => ({
     setState: update => lens.setFields(update),
-    setError: error => lens.focusPath('error').setValue(error),
+    error: error => lens.setFields({ error, isPending: false }),
     volume: volume => lens.focusPath('volume').setValue(volume),
     cast: () => lens.focusPath('isPending').setValue(true),
     initialState: () => lens.focusPath('isPending').setValue(true),
@@ -30,7 +31,14 @@ export const store = createStore<State>(initialState)
     seek: position => socket.emit('seek', position),
     quit: () => socket.emit('quit'),
 
-    setError: err => console.error(err),
+    error: err => {
+      browser.notifications.create('error', {
+        title: intl.formatMessage({ id: 'error.notification' }),
+        message: err,
+        type: 'basic',
+        iconUrl: browser.extension.getURL('icons/ic_cast_3x.png'),
+      });
+    },
   });
 
 store
@@ -39,6 +47,10 @@ store
     filter(Boolean),
     tap(castIp => {
       socket = io(`http://${castIp}:${process.env.REACT_APP_SOCKET_PORT}`);
+
+      fromEvent(socket, 'fail').subscribe(err =>
+        store.dispatch({ error: intl.formatMessage({ id: `error.${err}` }) }),
+      );
 
       merge(
         fromEvent(socket, 'initialState'),

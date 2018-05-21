@@ -3,7 +3,7 @@ import { css } from 'glamor';
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../style/themes/Theme';
+import { WithTheme } from '../../../style/themes/Theme';
 import { InputWrapper } from '../InputWrapper';
 
 css.insert('::-moz-range-track { background: #d7dcdf; border: 0; }');

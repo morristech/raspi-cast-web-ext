@@ -3,10 +3,7 @@ import React from 'react';
 import { componentFromStream } from 'recompose';
 import { map } from 'rxjs/operators';
 
-import { Control } from '../../components/Control';
-import { SeekBar } from '../../components/SeekBar';
-import { Time } from '../../components/Time';
-import { Volume } from '../../components/Volume';
+import { Control, SeekBar, Time, Volume } from '../../components/Player';
 import { store } from '../../store';
 import { WithTheme } from '../../style/themes/Theme';
 

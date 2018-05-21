@@ -1,22 +1,13 @@
 {
-  "options.maxVolume": "maximum volume",
-  "options.minVolume": "minimum volume",
   "options.castIp": "ip adress of the picast server",
   "options.casIp.invalid": "invalid ip adress",
+  "options.theme": "Theme : ",
+  "options.notifications": "Nofifications : ",
 
   "theme.light": "Light",
   "theme.dark": "Dark",
 
   "error.notification": "Error !!!",
   "error.unsuportedStream": "The stream is not complient with Raspicast.",
-  "error.playerUnavailable": "The Video player is not available.",
-
-  "error.command.unable": "Unable to reach cast server.",
-  "error.command.someone": "Someone else cast a video.",
-  "error.command.expired": "Cast expired.",
-  "error.command.nocast": "No video is being cast.",
-  "error.command.loading": "Video loading.",
-  "error.command.unknown": "Unknown error. Sorry!",
-  "error.command.play": "Error playing video",
-  "error.command.pause": "Error pausing video"
+  "error.playerUnavailable": "The Video player is not available."
 }

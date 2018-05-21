@@ -2,7 +2,7 @@ import glamorous from 'glamorous';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { componentFromStream } from 'recompose';
-import { map, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 
 import { ControlBar } from '../../containers/ControlBar';
 import { PopupHeader } from '../../containers/PopupHeader';
@@ -12,11 +12,12 @@ import { store } from '../../store';
 import { WithTheme } from '../../style/themes/Theme';
 
 export const PopupLayout = componentFromStream(props$ =>
-  store.pick('isPlaying', 'theme').pipe(
+  store.pick('isPlaying', 'theme', 'isReady').pipe(
     tap(
       ({ theme }) =>
         (document.body.style.backgroundColor = getTheme(theme).backgroundColor),
     ),
+    filter(({ isReady }) => isReady),
     map(({ isPlaying, theme }) => (
       <IntlProvider
         locale={navigator.language}

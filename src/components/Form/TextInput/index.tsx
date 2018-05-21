@@ -2,7 +2,7 @@ import glamorous from 'glamorous';
 import React from 'react';
 import { FieldProp } from 'rx-react-form';
 
-import { WithTheme } from '../../style/themes/Theme';
+import { WithTheme } from '../../../style/themes/Theme';
 import { InputWrapper } from '../InputWrapper';
 
 interface TextInputProps {

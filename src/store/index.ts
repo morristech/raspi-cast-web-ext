@@ -32,12 +32,14 @@ export const store = createStore<State>(initialState)
     quit: () => socket.emit('quit'),
 
     error: err => {
-      browser.notifications.create('error', {
-        title: intl.formatMessage({ id: 'error.notification' }),
-        message: err,
-        type: 'basic',
-        iconUrl: browser.extension.getURL('icons/ic_cast_3x.png'),
-      });
+      if (store.currentState.notification) {
+        browser.notifications.create('error', {
+          title: intl.formatMessage({ id: 'error.notification' }),
+          message: err,
+          type: 'basic',
+          iconUrl: browser.extension.getURL('icons/ic_cast_3x.png'),
+        });
+      }
     },
   });
 
@@ -47,7 +49,6 @@ store
     filter(Boolean),
     tap(castIp => {
       socket = io(`http://${castIp}:${process.env.REACT_APP_SOCKET_PORT}`);
-
       fromEvent(socket, 'fail').subscribe(err =>
         store.dispatch({ error: intl.formatMessage({ id: `error.${err}` }) }),
       );

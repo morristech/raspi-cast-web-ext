@@ -2,9 +2,9 @@ import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { noop } from '../../helpers/noop';
-import { WithTheme } from '../../style/themes/Theme';
-import { Icon } from '../Icon';
+import { noop } from '../../../helpers/noop';
+import { WithTheme } from '../../../style/themes/Theme';
+import { Icon } from '../../Icon';
 
 interface ControlProps {
   action: (...args: any[]) => void;

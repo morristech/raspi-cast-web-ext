@@ -3,18 +3,24 @@ import React from 'react';
 import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl';
 import { FieldProp, rxForm } from 'rx-react-form';
 import { from, Observable, Subscription } from 'rxjs';
-import { map, skip, tap } from 'rxjs/operators';
+import { map, skip } from 'rxjs/operators';
 
-import { Form } from '../../components/Form';
-import { TextInput } from '../../components/TextInput';
+import { Form, Select, Switch, TextInput } from '../../components/Form';
 import { validateIpAdress } from '../../helpers/validators';
 
 interface OptionsProps {
   valueChange$?: Observable<any>;
   castIp?: FieldProp;
+  notification?: FieldProp;
   theme?: FieldProp;
+  setValue?: (e?: any) => void;
   onSubmit: () => void;
 }
+
+const themeOptions = [
+  { value: 'light', label: 'theme.light' },
+  { value: 'dark', label: 'theme.dark' },
+];
 
 class BasicOptionsForm extends React.Component<
   OptionsProps & InjectedIntlProps
@@ -22,11 +28,7 @@ class BasicOptionsForm extends React.Component<
   private subscription: Subscription;
   public componentDidMount(): void {
     this.subscription = this.props
-      .valueChange$!.pipe(
-        skip(1),
-        map(this.reduceFormValue),
-        tap(settings => console.log('settings', settings)),
-      )
+      .valueChange$!.pipe(skip(1), map(this.reduceFormValue))
       .subscribe(settings => browser.storage.local.set(settings));
   }
 
@@ -35,7 +37,7 @@ class BasicOptionsForm extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { intl, castIp } = this.props;
+    const { intl, castIp, notification } = this.props;
     return (
       <Form>
         <TextInput
@@ -43,16 +45,27 @@ class BasicOptionsForm extends React.Component<
           name="castIp"
           meta={castIp}
         />
-        <select name="theme">
-          <option value="light">
-            {intl.formatMessage({ id: 'theme.light' })}
-          </option>
-          <option value="dark">
-            {intl.formatMessage({ id: 'theme.dark' })}
-          </option>
-        </select>
+        <Select
+          label={intl.formatMessage({ id: 'options.theme' })}
+          name="theme"
+          options={themeOptions}
+        />
+        <Switch
+          label={intl.formatMessage({ id: 'options.notifications' })}
+          value={!!notification && !!notification.value}
+          onChange={this.handleNotificationChange}
+        />
       </Form>
     );
+  }
+
+  @autobind
+  private handleNotificationChange(notification: boolean): void {
+    if (this.props.setValue) {
+      this.props.setValue({
+        notification,
+      });
+    }
   }
 
   @autobind
@@ -70,7 +83,6 @@ class BasicOptionsForm extends React.Component<
 }
 
 const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
-  debounce: 2000,
   fields: {
     castIp: {
       validation: (value: string, formValue, { intl, ...props }) => {
@@ -83,12 +95,15 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
         }
       },
     },
+    notification: {
+      customInput: true,
+    },
     theme: {},
   },
-  value$: from(browser.storage.local.get(['castIp', 'theme'])) as Observable<
-    any
-  >,
+  value$: from(
+    browser.storage.local.get(['castIp', 'theme', 'notification']),
+  ) as any,
   valueChangeObs: true,
-})(BasicOptionsForm);
+})(BasicOptionsForm as any);
 
 export const OptionsForm = injectIntl<OptionsProps>(RxOptionsForm as any);

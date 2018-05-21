@@ -2,7 +2,7 @@ import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
-import { WithTheme } from '../../style/themes/Theme';
+import { WithTheme } from '../../../style/themes/Theme';
 
 interface TimeProps {
   position: number;

@@ -2,8 +2,8 @@ import autobind from 'autobind-decorator';
 import glamorous from 'glamorous';
 import React from 'react';
 
+import { RangeInput } from '../../Form';
 import { Control } from '../Control';
-import { RangeInput } from '../Slider';
 
 interface VolumeProps {
   maxVolume: number;

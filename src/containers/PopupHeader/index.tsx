@@ -2,7 +2,7 @@ import glamorous from 'glamorous';
 import { CastType } from 'raspi-cast-common';
 import React from 'react';
 import { componentFromStream } from 'recompose';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Card } from '../../components/Card';
 import { CastButton } from '../../components/CastButton';
@@ -19,7 +19,6 @@ const handleStop = () => {
 
 export const PopupHeader = componentFromStream(props$ =>
   store.pick('isStopped', 'pageUrl', 'meta', 'isPending').pipe(
-    tap(foo => console.log('POPUPHEADER', foo)),
     map(({ isStopped, pageUrl, meta, isPending }) => (
       <Header isStopped={isStopped}>
         {!isPending && (

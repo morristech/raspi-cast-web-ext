@@ -3,8 +3,10 @@ import { CastMeta, CastOptions } from 'raspi-cast-common';
 export interface State {
   meta?: CastMeta;
   status: string;
+  isReady: boolean;
   isPending: boolean;
   isSeeking: boolean;
+  notification: boolean;
   pageUrl: string;
   error?: string;
   duration: number;
@@ -23,12 +25,9 @@ export interface Actions {
   play: void;
   pause: void;
   quit: void;
-  status: void;
-  position: number | void;
-  duration: number | void;
   seek: number;
   volume: number;
-
   error: string;
+
   setState: Partial<State>;
 }

@@ -1,22 +1,13 @@
 {
-  "options.maxVolume": "volume maximum",
-  "options.minVolume": "volume minimum",
   "options.castIp": "adresse ip de votre picast",
   "options.casIp.invalid": "adresse id invalide",
+  "options.theme": "Theme :",
+  "options.notifications": "Nofifications : ",
 
   "theme.light": "Clair",
   "theme.dark": "Sombre",
 
   "error.notification": "Erreur !!!",
   "error.unsuportedStream": "Le stream n'est pas compatible avec raspicast.",
-  "error.playerUnavailable": "Le lecteur video n'est pas disponnible.",
-
-  "error.command.unable": "Impossible de se connecter au serveur.",
-  "error.command.someone": "Quelqun d'autre cast une video.",
-  "error.command.expired": "Votre cast a expire.",
-  "error.command.nocast": "Aucune video n'est caste actuellement.",
-  "error.command.loading": "La video est en chargement.",
-  "error.command.unknown": "Erreur inconnue. desole !",
-  "error.command.play": "Erreur en jouant la video",
-  "error.command.pause": "Erreur en mettant la video en pause"
+  "error.playerUnavailable": "Le lecteur video n'est pas disponnible."
 }

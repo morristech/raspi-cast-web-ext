@@ -1,6 +1,6 @@
 {
   "options.castIp": "ip adress of the picast server",
-  "options.casIp.invalid": "invalid ip adress",
+  "options.castIp.invalid": "invalid ip adress",
   "options.theme": "Theme : ",
   "options.notifications": "Nofifications : ",
 

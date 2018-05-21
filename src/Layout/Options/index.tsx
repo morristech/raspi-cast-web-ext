@@ -5,7 +5,6 @@ import { IntlProvider } from 'react-intl';
 import { OptionsForm } from '../../containers/OptionsForm';
 import { ThemeProvider } from '../../containers/ThemeProvider';
 import { getTranslations } from '../../helpers/i18n';
-import { noop } from '../../helpers/noop';
 import { WithTheme } from '../../style/themes/Theme';
 
 export const OptionsLayout: React.SFC<{}> = () => (
@@ -16,7 +15,7 @@ export const OptionsLayout: React.SFC<{}> = () => (
   >
     <ThemeProvider>
       <Layout>
-        <OptionsForm onSubmit={noop} />
+        <OptionsForm />
       </Layout>
     </ThemeProvider>
   </IntlProvider>

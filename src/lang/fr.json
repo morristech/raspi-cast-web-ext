@@ -1,6 +1,6 @@
 {
   "options.castIp": "adresse ip de votre picast",
-  "options.casIp.invalid": "adresse id invalide",
+  "options.castIp.invalid": "adresse id invalide",
   "options.theme": "Theme :",
   "options.notifications": "Nofifications : ",
 

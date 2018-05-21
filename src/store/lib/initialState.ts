@@ -14,6 +14,5 @@ export const initialState: State = {
   minVolume: 0,
   volume: 1,
   muted: false,
-  castIp: '',
   pageUrl: '',
 };

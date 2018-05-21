@@ -5,7 +5,13 @@ import { FieldProp, rxForm } from 'rx-react-form';
 import { from, Observable, Subscription } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
-import { Form, Select, Switch, TextInput } from '../../components/Form';
+import {
+  Form,
+  InputWrapper,
+  Select,
+  Switch,
+  TextInput,
+} from '../../components/Form';
 import { validateIpAdress } from '../../helpers/validators';
 
 interface OptionsProps {
@@ -14,7 +20,6 @@ interface OptionsProps {
   notification?: FieldProp;
   theme?: FieldProp;
   setValue?: (e?: any) => void;
-  onSubmit: () => void;
 }
 
 const themeOptions = [
@@ -45,16 +50,20 @@ class BasicOptionsForm extends React.Component<
           name="castIp"
           meta={castIp}
         />
-        <Select
-          label={intl.formatMessage({ id: 'options.theme' })}
-          name="theme"
-          options={themeOptions}
-        />
-        <Switch
-          label={intl.formatMessage({ id: 'options.notifications' })}
-          value={!!notification && !!notification.value}
-          onChange={this.handleNotificationChange}
-        />
+        <InputWrapper>
+          <Select
+            label={intl.formatMessage({ id: 'options.theme' })}
+            name="theme"
+            options={themeOptions}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Switch
+            label={intl.formatMessage({ id: 'options.notifications' })}
+            value={!!notification && !!notification.value}
+            onChange={this.handleNotificationChange}
+          />
+        </InputWrapper>
       </Form>
     );
   }
@@ -89,7 +98,7 @@ const RxOptionsForm = rxForm<OptionsProps & { intl?: InjectedIntl }>({
         if (value !== '') {
           return validateIpAdress(value)
             ? undefined
-            : intl!.formatMessage({ id: 'options.casIp.invalid' });
+            : intl!.formatMessage({ id: 'options.castIp.invalid' });
         } else {
           return undefined;
         }

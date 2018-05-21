@@ -1,7 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
 
-import { InputWrapper } from '../InputWrapper';
 import { Label } from '../Label';
 
 interface SelectProps {
@@ -12,7 +11,7 @@ interface SelectProps {
 
 export const Select = injectIntl<SelectProps>(
   ({ label, name, options = [], intl }) => (
-    <InputWrapper>
+    <React.Fragment>
       {!!label && <Label>{label}</Label>}
       <select name={name}>
         {options.map((opt, idx) => (
@@ -21,6 +20,6 @@ export const Select = injectIntl<SelectProps>(
           </option>
         ))}
       </select>
-    </InputWrapper>
+    </React.Fragment>
   ),
 );

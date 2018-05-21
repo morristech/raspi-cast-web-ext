@@ -1,7 +1,6 @@
 import React from 'react';
 import RSwitch from 'react-switch';
 
-import { InputWrapper } from '../InputWrapper';
 import { Label } from '../Label';
 
 interface SwitchProps {
@@ -17,8 +16,8 @@ export const Switch: React.SFC<SwitchProps> = ({
   onChange,
   value,
 }) => (
-  <InputWrapper>
+  <React.Fragment>
     <Label htmlFor={id}>{label}</Label>
     <RSwitch onChange={onChange} checked={value} id={id} />
-  </InputWrapper>
+  </React.Fragment>
 );

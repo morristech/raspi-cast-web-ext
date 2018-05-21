@@ -5,6 +5,7 @@ import { componentFromStream } from 'recompose';
 import { filter, map, tap } from 'rxjs/operators';
 
 import { ControlBar } from '../../containers/ControlBar';
+import { IpForm } from '../../containers/IpForm';
 import { PopupHeader } from '../../containers/PopupHeader';
 import { getTheme, ThemeProvider } from '../../containers/ThemeProvider';
 import { getTranslations } from '../../helpers/i18n';
@@ -12,13 +13,13 @@ import { store } from '../../store';
 import { WithTheme } from '../../style/themes/Theme';
 
 export const PopupLayout = componentFromStream(props$ =>
-  store.pick('isPlaying', 'theme', 'isReady').pipe(
+  store.pick('isPlaying', 'theme', 'isReady', 'castIp').pipe(
     tap(
       ({ theme }) =>
         (document.body.style.backgroundColor = getTheme(theme).backgroundColor),
     ),
     filter(({ isReady }) => isReady),
-    map(({ isPlaying, theme }) => (
+    map(({ isPlaying, theme, castIp }) => (
       <IntlProvider
         locale={navigator.language}
         messages={getTranslations()}
@@ -26,7 +27,8 @@ export const PopupLayout = componentFromStream(props$ =>
       >
         <ThemeProvider>
           <Layout isPlaying={isPlaying}>
-            <PopupHeader />
+            {!castIp && <IpForm />}
+            {!!castIp && <PopupHeader />}
             {isPlaying && (
               <Main>
                 <ControlBar />

@@ -3,14 +3,14 @@ import React from 'react';
 import { FieldProp } from 'rx-react-form';
 
 import { WithTheme } from '../../../style/themes/Theme';
-import { InputWrapper } from '../InputWrapper';
 
 interface TextInputProps {
   type?: string;
   value?: string;
   label?: string;
-  name: string;
+  name?: string;
   meta?: FieldProp;
+  style?: any;
 }
 
 export const TextInput: React.SFC<TextInputProps> = ({
@@ -71,3 +71,12 @@ const FloatingLabel = glamorous.label<WithTheme & { error?: boolean }>(
     transition: 'top 0.3s ease-in, transform 0.3s ease-in',
   }),
 );
+
+const InputWrapper = glamorous.div({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+  position: 'relative',
+  padding: '10px 10px 10px 10px',
+});
